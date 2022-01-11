@@ -729,5 +729,4 @@ lib{utility}: cxx.export.libs += lib{base_internal config type_traits}
 lib{*}:
 {
     cxx.export.poptions += "-I$src_base"
-    bin.lib.prefix = libabsl_
 }
