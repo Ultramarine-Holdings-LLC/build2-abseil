@@ -78,9 +78,9 @@ lib{base}: cxx.export.libs += lib{atomic_hook base_internal config core_headers 
 if ($cxx.target.class == 'windows')
 {
     if ($cxx.target.system == 'mingw32')
-        lib{base}: cxx.libs += "-ladvapi32"
+        lib{base}: cxx.libs += "-ladvapi32" "-lws2_32"
     else
-        lib{base}: cxx.libs += "advapi32.lib"
+        lib{base}: cxx.libs += "advapi32.lib" "ws2_32.lib"
 }
 else
 {
@@ -294,6 +294,7 @@ def{flags_private_handle_accessor}: libul{flags_private_handle_accessor}
 
 ./: lib{flags_reflection}: libul{flags_reflection}: \
     absl/flags/{cxx hxx}{reflection} \
+    absl/flags/internal/hxx{registry} \
     lib{config flags_commandlineflag flags_private_handle_accessor flags_config strings synchronization flat_hash_map}
 lib{flags_reflection}: cxx.export.libs += lib{config flags_commandlineflag flags_private_handle_accessor flags_config strings synchronization flat_hash_map}
 lib{flags_reflection}: def{flags_reflection}: include = ($cxx.target.system == 'win32-msvc')
