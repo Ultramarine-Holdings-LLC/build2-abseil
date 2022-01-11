@@ -1,4 +1,4 @@
-import libs  = abseil%lib{time}
-import libs += abseil%lib{time_zone}
+import libs  = abseil%lib{absl_time}
+import libs += abseil%lib{absl_time_zone}
 
 exe{driver}: cxx{**} $libs

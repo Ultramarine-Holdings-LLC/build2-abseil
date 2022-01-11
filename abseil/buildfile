@@ -20,711 +20,711 @@ if ($cxx.target.system == 'mingw32')
   cxx.loptions += -Wl,--export-all-symbols
 
 # algorithm
-./: lib{algorithm}: absl/algorithm/hxx{algorithm} lib{config}
-lib{algorithm}: cxx.export.libs += lib{config}
-./: lib{algorithm_container}: absl/algorithm/hxx{container} lib{algorithm} lib{core_headers} lib{meta}
-lib{algorithm_container}: cxx.export.libs += lib{algorithm} lib{core_headers} lib{meta}
+./: lib{absl_algorithm}: absl/algorithm/hxx{algorithm} lib{absl_config}
+lib{absl_algorithm}: cxx.export.libs += lib{absl_config}
+./: lib{absl_algorithm_container}: absl/algorithm/hxx{container} lib{absl_algorithm} lib{absl_core_headers} lib{absl_meta}
+lib{absl_algorithm_container}: cxx.export.libs += lib{absl_algorithm} lib{absl_core_headers} lib{absl_meta}
 
 # base
-./: lib{atomic_hook}: absl/base/internal/hxx{atomic_hook} lib{config} lib{core_headers}
-lib{atomic_hook}: cxx.export.libs += lib{config core_headers}
-./: lib{errno_saver}: absl/base/internal/hxx{errno_saver} lib{config}
-lib{errno_saver}: cxx.export.libs += lib{config}
+./: lib{absl_atomic_hook}: absl/base/internal/hxx{atomic_hook} lib{absl_config} lib{absl_core_headers}
+lib{absl_atomic_hook}: cxx.export.libs += lib{absl_config} lib{absl_core_headers}
+./: lib{absl_errno_saver}: absl/base/internal/hxx{errno_saver} lib{absl_config}
+lib{absl_errno_saver}: cxx.export.libs += lib{absl_config}
 
-./: lib{log_severity}: libul{log_severity}: absl/base/{cxx hxx}{log_severity} lib{core_headers}
-lib{log_severity}: def{log_severity}: include = ($cxx.target.system == 'win32-msvc')
-def{log_severity}: libul{log_severity}
-lib{log_severity}: cxx.export.libs += lib{core_headers}
+./: lib{absl_log_severity}: libul{absl_log_severity}: absl/base/{cxx hxx}{log_severity} lib{absl_core_headers}
+lib{absl_log_severity}: def{log_severity}: include = ($cxx.target.system == 'win32-msvc')
+def{log_severity}: libul{absl_log_severity}
+lib{absl_log_severity}: cxx.export.libs += lib{absl_core_headers}
 
-./: lib{raw_logging_internal}: libul{raw_logging_internal}: absl/base/internal/{cxx hxx}{raw_logging} lib{atomic_hook} lib{config} lib{core_headers} lib{log_severity}
-lib{raw_logging_internal}: def{raw_logging_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{raw_logging_internal}: libul{raw_logging_internal}
-lib{raw_logging_internal}: cxx.export.libs += lib{atomic_hook config core_headers log_severity}
+./: lib{absl_raw_logging_internal}: libul{absl_raw_logging_internal}: absl/base/internal/{cxx hxx}{raw_logging} lib{absl_atomic_hook} lib{absl_config} lib{absl_core_headers} lib{absl_log_severity}
+lib{absl_raw_logging_internal}: def{raw_logging_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{raw_logging_internal}: libul{absl_raw_logging_internal}
+lib{absl_raw_logging_internal}: cxx.export.libs += lib{absl_atomic_hook} lib{absl_config} lib{absl_core_headers} lib{absl_log_severity}
 
-./: lib{spinlock_wait}: libul{spinlock_wait}: \
+./: lib{absl_spinlock_wait}: libul{absl_spinlock_wait}: \
     absl/base/internal/{cxx hxx}{spinlock_wait} \
     absl/base/internal/ixx{spinlock_akaros spinlock_linux spinlock_posix spinlock_win32} \
-    lib{base_internal} lib{core_headers} lib{errno_saver}
-lib{spinlock_wait}: def{spinlock_wait}: include = ($cxx.target.system == 'win32-msvc')
-def{spinlock_wait}: libul{spinlock_wait}
-lib{spinlock_wait}: cxx.export.libs += lib{core_headers base_internal errno_saver}
+    lib{absl_base_internal} lib{absl_core_headers} lib{absl_errno_saver}
+lib{absl_spinlock_wait}: def{spinlock_wait}: include = ($cxx.target.system == 'win32-msvc')
+def{spinlock_wait}: libul{absl_spinlock_wait}
+lib{absl_spinlock_wait}: cxx.export.libs += lib{absl_core_headers} lib{absl_base_internal} lib{absl_errno_saver}
 
-./: lib{config}: absl/base/hxx{config options policy_checks}
-./: lib{dynamic_annotations}: absl/base/hxx{dynamic_annotations internal/dynamic_annotations} lib{config}
-lib{dynamic_annotations}: cxx.export.libs += lib{config}
-./: lib{core_headers}: absl/base/hxx{attributes const_init macros optimization port thread_annotations internal/thread_annotations} lib{config}
-lib{core_headers}: cxx.export.libs += lib{config}
+./: lib{absl_config}: absl/base/hxx{config options policy_checks}
+./: lib{absl_dynamic_annotations}: absl/base/hxx{dynamic_annotations internal/dynamic_annotations} lib{absl_config}
+lib{absl_dynamic_annotations}: cxx.export.libs += lib{absl_config}
+./: lib{absl_core_headers}: absl/base/hxx{attributes const_init macros optimization port thread_annotations internal/thread_annotations} lib{absl_config}
+lib{absl_core_headers}: cxx.export.libs += lib{absl_config}
 
-./: lib{malloc_internal}: libul{malloc_internal}: \
+./: lib{absl_malloc_internal}: libul{absl_malloc_internal}: \
     absl/base/internal/hxx{direct_mmap} absl/base/internal/{hxx cxx}{low_level_alloc} \
-    lib{base} lib{base_internal} lib{config} lib{core_headers} lib{dynamic_annotations} lib{raw_logging_internal}
-lib{malloc_internal}: def{malloc_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{malloc_internal}: libul{malloc_internal}
-lib{malloc_internal}: lib{base base_internal config core_headers dynamic_annotations raw_logging_internal}
+    lib{absl_base} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_raw_logging_internal}
+lib{absl_malloc_internal}: def{malloc_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{malloc_internal}: libul{absl_malloc_internal}
+lib{absl_malloc_internal}: lib{absl_base} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_raw_logging_internal}
 
 if ($cxx.target.class != 'windows')
-    lib{malloc_internal}: cxx.libs += "-lpthread"
+    lib{absl_malloc_internal}: cxx.libs += "-lpthread"
 
-./: lib{base_internal}: absl/base/internal/hxx{hide_ptr identity inline_variable invoke scheduling_mode} lib{config} lib{type_traits}
-lib{base_internal}: cxx.export.libs += lib{config type_traits}
+./: lib{absl_base_internal}: absl/base/internal/hxx{hide_ptr identity inline_variable invoke scheduling_mode} lib{absl_config} lib{absl_type_traits}
+lib{absl_base_internal}: cxx.export.libs += lib{absl_config} lib{absl_type_traits}
 
-./: lib{base}: libul{base}: \
+./: lib{absl_base}: libul{absl_base}: \
     absl/base/hxx{call_once casts} \
     absl/base/internal/{cxx hxx}{cycleclock spinlock sysinfo thread_identity unscaledcycleclock} \
     absl/base/internal/hxx{low_level_scheduling per_thread_tls tsan_mutex_interface} \
-    lib{atomic_hook base_internal config core_headers dynamic_annotations log_severity raw_logging_internal spinlock_wait type_traits}
-lib{base}: cxx.export.libs += lib{atomic_hook base_internal config core_headers dynamic_annotations log_severity raw_logging_internal spinlock_wait type_traits}
+    lib{absl_atomic_hook} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_log_severity} lib{absl_raw_logging_internal} lib{absl_spinlock_wait} lib{absl_type_traits}
+lib{absl_base}: cxx.export.libs += lib{absl_atomic_hook} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_log_severity} lib{absl_raw_logging_internal} lib{absl_spinlock_wait} lib{absl_type_traits}
 
 if ($cxx.target.class == 'windows')
 {
     if ($cxx.target.system == 'mingw32')
-        lib{base}: cxx.libs += "-ladvapi32" "-lws2_32"
+        lib{absl_base}: cxx.libs += "-ladvapi32" "-lws2_32"
     else
-        lib{base}: cxx.libs += "advapi32.lib" "ws2_32.lib"
+        lib{absl_base}: cxx.libs += "advapi32.lib" "ws2_32.lib"
 }
 else
 {
-    lib{base}: cxx.libs += "-lrt" "-lpthread"
+    lib{absl_base}: cxx.libs += "-lrt" "-lpthread"
 }
 
-./: lib{throw_delegate}: libul{throw_delegate}: absl/base/internal/{cxx hxx}{throw_delegate} lib{config raw_logging_internal}
-lib{throw_delegate}: def{throw_delegate}: include = ($cxx.target.system == 'win32-msvc')
-def{throw_delegate}: libul{throw_delegate}
-lib{throw_delegate}: cxx.export.libs += lib{config raw_logging_internal}
+./: lib{absl_throw_delegate}: libul{absl_throw_delegate}: absl/base/internal/{cxx hxx}{throw_delegate} lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_throw_delegate}: def{throw_delegate}: include = ($cxx.target.system == 'win32-msvc')
+def{throw_delegate}: libul{absl_throw_delegate}
+lib{absl_throw_delegate}: cxx.export.libs += lib{absl_config} lib{absl_raw_logging_internal}
 
-./: lib{pretty_function}: absl/base/internal/hxx{pretty_function}
-./: lib{endian}: absl/base/internal/hxx{endian unaligned_access} lib{base config core_headers}
-lib{endian}: cxx.export.libs += lib{base config core_headers}
+./: lib{absl_pretty_function}: absl/base/internal/hxx{pretty_function}
+./: lib{absl_endian}: absl/base/internal/hxx{endian unaligned_access} lib{absl_base} lib{absl_config} lib{absl_core_headers}
+lib{absl_endian}: cxx.export.libs += lib{absl_base} lib{absl_config} lib{absl_core_headers}
 
-./: lib{scoped_set_env}: libul{scoped_set_env}: absl/base/internal/{cxx hxx}{scoped_set_env} lib{config raw_logging_internal}
-lib{scoped_set_env}: def{scoped_set_env}: include = ($cxx.target.system == 'win32-msvc')
-def{scoped_set_env}: libul{scoped_set_env}
-lib{scoped_set_env}: cxx.export.libs += lib{config raw_logging_internal}
+./: lib{absl_scoped_set_env}: libul{absl_scoped_set_env}: absl/base/internal/{cxx hxx}{scoped_set_env} lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_scoped_set_env}: def{scoped_set_env}: include = ($cxx.target.system == 'win32-msvc')
+def{scoped_set_env}: libul{absl_scoped_set_env}
+lib{absl_scoped_set_env}: cxx.export.libs += lib{absl_config} lib{absl_raw_logging_internal}
 
-./: lib{strerror}: libul{strerror}: absl/base/internal/{cxx hxx}{strerror} lib{config core_headers errno_saver}
-lib{strerror}: def{strerror}: include = ($cxx.target.system == 'win32-msvc')
-def{strerror}: libul{strerror}
-lib{strerror}: cxx.export.libs += lib{config core_headers errno_saver}
+./: lib{absl_strerror}: libul{absl_strerror}: absl/base/internal/{cxx hxx}{strerror} lib{absl_config} lib{absl_core_headers} lib{absl_errno_saver}
+lib{absl_strerror}: def{strerror}: include = ($cxx.target.system == 'win32-msvc')
+def{strerror}: libul{absl_strerror}
+lib{absl_strerror}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_errno_saver}
 
-./: lib{fast_type_id}: absl/base/internal/hxx{fast_type_id} lib{config}
-lib{fast_type_id}: cxx.export.libs += lib{config}
+./: lib{absl_fast_type_id}: absl/base/internal/hxx{fast_type_id} lib{absl_config}
+lib{absl_fast_type_id}: cxx.export.libs += lib{absl_config}
 
 # cleanup
-./: lib{cleanup_internal}: absl/cleanup/internal/hxx{cleanup} lib{base_internal} lib{core_headers} lib{utility}
-lib{cleanup_internal}: cxx.export.libs += lib{base_internal core_headers utility}
-./: lib{cleanup}: absl/cleanup/hxx{cleanup} lib{cleanup_internal config core_headers}
-lib{cleanup}: cxx.export.libs += lib{cleanup_internal config core_headers}
+./: lib{absl_cleanup_internal}: absl/cleanup/internal/hxx{cleanup} lib{absl_base_internal} lib{absl_core_headers} lib{absl_utility}
+lib{absl_cleanup_internal}: cxx.export.libs += lib{absl_base_internal} lib{absl_core_headers} lib{absl_utility}
+./: lib{absl_cleanup}: absl/cleanup/hxx{cleanup} lib{absl_cleanup_internal} lib{absl_config} lib{absl_core_headers}
+lib{absl_cleanup}: cxx.export.libs += lib{absl_cleanup_internal} lib{absl_config} lib{absl_core_headers}
 
 # container
-./: lib{btree}: absl/container/hxx{btree_map btree_set internal/btree internal/btree_container} \
-    lib{container_common compare compressed_tuple container_memory cord core_headers layout memory strings throw_delegate type_traits utility}
-lib{btree}: cxx.export.libs += lib{container_common compare compressed_tuple container_memory cord core_headers layout memory strings throw_delegate type_traits utility}
-./: lib{compressed_tuple}: absl/container/internal/hxx{compressed_tuple} lib{utility}
-lib{compressed_tuple}: cxx.export.libs += lib{utility}
-./: lib{fixed_array}: absl/container/hxx{fixed_array} lib{compressed_tuple algorithm config core_headers dynamic_annotations throw_delegate memory}
-lib{fixed_array}: cxx.export.libs += lib{compressed_tuple algorithm config core_headers dynamic_annotations throw_delegate memory}
-./: lib{inlined_vector_internal}: absl/container/internal/hxx{inlined_vector} lib{compressed_tuple core_headers memory span type_traits}
-lib{inlined_vector_internal}: cxx.export.libs += lib{compressed_tuple core_headers memory span type_traits}
-./: lib{inlined_vector}: absl/container/hxx{inlined_vector} lib{algorithm core_headers inlined_vector_internal throw_delegate memory}
-lib{inlined_vector}: cxx.export.libs += lib{algorithm core_headers inlined_vector_internal throw_delegate memory}
-./: lib{counting_allocator}: absl/container/internal/hxx{counting_allocator} lib{config}
-lib{counting_allocator}: cxx.export.libs += lib{config}
-./: lib{flat_hash_map}: absl/container/hxx{flat_hash_map} lib{container_memory core_headers hash_function_defaults raw_hash_map algorithm_container memory}
-lib{flat_hash_map}: cxx.export.libs += lib{container_memory core_headers hash_function_defaults raw_hash_map algorithm_container memory}
-./: lib{flat_hash_set}: absl/container/hxx{flat_hash_set} lib{container_memory core_headers hash_function_defaults raw_hash_set algorithm_container memory}
-lib{flat_hash_set}: cxx.export.libs += lib{container_memory core_headers hash_function_defaults raw_hash_set algorithm_container memory}
-./: lib{node_hash_map}: absl/container/hxx{node_hash_map} lib{container_memory core_headers hash_function_defaults node_hash_policy raw_hash_map algorithm_container memory}
-lib{node_hash_map}: cxx.export.libs += lib{container_memory core_headers hash_function_defaults node_hash_policy raw_hash_map algorithm_container memory}
-./: lib{node_hash_set}: absl/container/hxx{node_hash_set} lib{core_headers hash_function_defaults node_hash_policy raw_hash_map algorithm_container memory}
-lib{node_hash_set}: cxx.export.libs += lib{core_headers hash_function_defaults node_hash_policy raw_hash_map algorithm_container memory}
-./: lib{container_memory}: absl/container/internal/hxx{container_memory} lib{config memory type_traits utility}
-lib{container_memory}: cxx.export.libs += lib{config memory type_traits utility}
-./: lib{hash_function_defaults}: absl/container/internal/hxx{hash_function_defaults} lib{config cord hash strings}
-lib{hash_function_defaults}: cxx.export.libs += lib{config cord hash strings}
-./: lib{hash_policy_traits}: absl/container/internal/hxx{hash_policy_traits} lib{meta}
-lib{hash_policy_traits}: cxx.export.libs += lib{meta}
+./: lib{absl_btree}: absl/container/hxx{btree_map btree_set internal/btree internal/btree_container} \
+    lib{absl_container_common} lib{absl_compare} lib{absl_compressed_tuple} lib{absl_container_memory} lib{absl_cord} lib{absl_core_headers} lib{absl_layout} lib{absl_memory} lib{absl_strings} lib{absl_throw_delegate} lib{absl_type_traits} lib{absl_utility}
+lib{absl_btree}: cxx.export.libs += lib{absl_container_common} lib{absl_compare} lib{absl_compressed_tuple} lib{absl_container_memory} lib{absl_cord} lib{absl_core_headers} lib{absl_layout} lib{absl_memory} lib{absl_strings} lib{absl_throw_delegate} lib{absl_type_traits} lib{absl_utility}
+./: lib{absl_compressed_tuple}: absl/container/internal/hxx{compressed_tuple} lib{absl_utility}
+lib{absl_compressed_tuple}: cxx.export.libs += lib{absl_utility}
+./: lib{absl_fixed_array}: absl/container/hxx{fixed_array} lib{absl_compressed_tuple} lib{absl_algorithm} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_throw_delegate} lib{absl_memory}
+lib{absl_fixed_array}: cxx.export.libs += lib{absl_compressed_tuple} lib{absl_algorithm} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_throw_delegate} lib{absl_memory}
+./: lib{absl_inlined_vector_internal}: absl/container/internal/hxx{inlined_vector} lib{absl_compressed_tuple} lib{absl_core_headers} lib{absl_memory} lib{absl_span} lib{absl_type_traits}
+lib{absl_inlined_vector_internal}: cxx.export.libs += lib{absl_compressed_tuple} lib{absl_core_headers} lib{absl_memory} lib{absl_span} lib{absl_type_traits}
+./: lib{absl_inlined_vector}: absl/container/hxx{inlined_vector} lib{absl_algorithm} lib{absl_core_headers} lib{absl_inlined_vector_internal} lib{absl_throw_delegate} lib{absl_memory}
+lib{absl_inlined_vector}: cxx.export.libs += lib{absl_algorithm} lib{absl_core_headers} lib{absl_inlined_vector_internal} lib{absl_throw_delegate} lib{absl_memory}
+./: lib{absl_counting_allocator}: absl/container/internal/hxx{counting_allocator} lib{absl_config}
+lib{absl_counting_allocator}: cxx.export.libs += lib{absl_config}
+./: lib{absl_flat_hash_map}: absl/container/hxx{flat_hash_map} lib{absl_container_memory} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_raw_hash_map} lib{absl_algorithm_container} lib{absl_memory}
+lib{absl_flat_hash_map}: cxx.export.libs += lib{absl_container_memory} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_raw_hash_map} lib{absl_algorithm_container} lib{absl_memory}
+./: lib{absl_flat_hash_set}: absl/container/hxx{flat_hash_set} lib{absl_container_memory} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_raw_hash_set} lib{absl_algorithm_container} lib{absl_memory}
+lib{absl_flat_hash_set}: cxx.export.libs += lib{absl_container_memory} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_raw_hash_set} lib{absl_algorithm_container} lib{absl_memory}
+./: lib{absl_node_hash_map}: absl/container/hxx{node_hash_map} lib{absl_container_memory} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_node_hash_policy} lib{absl_raw_hash_map} lib{absl_algorithm_container} lib{absl_memory}
+lib{absl_node_hash_map}: cxx.export.libs += lib{absl_container_memory} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_node_hash_policy} lib{absl_raw_hash_map} lib{absl_algorithm_container} lib{absl_memory}
+./: lib{absl_node_hash_set}: absl/container/hxx{node_hash_set} lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_node_hash_policy} lib{absl_raw_hash_map} lib{absl_algorithm_container} lib{absl_memory}
+lib{absl_node_hash_set}: cxx.export.libs += lib{absl_core_headers} lib{absl_hash_function_defaults} lib{absl_node_hash_policy} lib{absl_raw_hash_map} lib{absl_algorithm_container} lib{absl_memory}
+./: lib{absl_container_memory}: absl/container/internal/hxx{container_memory} lib{absl_config} lib{absl_memory} lib{absl_type_traits} lib{absl_utility}
+lib{absl_container_memory}: cxx.export.libs += lib{absl_config} lib{absl_memory} lib{absl_type_traits} lib{absl_utility}
+./: lib{absl_hash_function_defaults}: absl/container/internal/hxx{hash_function_defaults} lib{absl_config} lib{absl_cord} lib{absl_hash} lib{absl_strings}
+lib{absl_hash_function_defaults}: cxx.export.libs += lib{absl_config} lib{absl_cord} lib{absl_hash} lib{absl_strings}
+./: lib{absl_hash_policy_traits}: absl/container/internal/hxx{hash_policy_traits} lib{absl_meta}
+lib{absl_hash_policy_traits}: cxx.export.libs += lib{absl_meta}
 
-./: lib{hashtablez_sampler}: libul{hashtablez_sampler}: \
+./: lib{absl_hashtablez_sampler}: libul{absl_hashtablez_sampler}: \
     absl/container/internal/{hxx cxx}{hashtablez_sampler} absl/container/internal/cxx{hashtablez_sampler_force_weak_definition} \
-    lib{base exponential_biased have_sse sample_recorder synchronization}
-lib{hashtablez_sampler}: cxx.export.libs += lib{base exponential_biased have_sse sample_recorder synchronization}
-lib{hashtablez_sampler}: def{hashtablez_sampler}: include = ($cxx.target.system == 'win32-msvc')
-def{hashtablez_sampler}: libul{hashtablez_sampler}
+    lib{absl_base} lib{absl_exponential_biased} lib{absl_have_sse} lib{absl_sample_recorder} lib{absl_synchronization}
+lib{absl_hashtablez_sampler}: cxx.export.libs += lib{absl_base} lib{absl_exponential_biased} lib{absl_have_sse} lib{absl_sample_recorder} lib{absl_synchronization}
+lib{absl_hashtablez_sampler}: def{hashtablez_sampler}: include = ($cxx.target.system == 'win32-msvc')
+def{hashtablez_sampler}: libul{absl_hashtablez_sampler}
 
-./: lib{hashtable_debug}: absl/container/internal/hxx{hashtable_debug} lib{hashtable_debug_hooks}
-lib{hashtable_debug}: cxx.export.libs += lib{hashtable_debug_hooks}
-./: lib{hashtable_debug_hooks}: absl/container/internal/hxx{hashtable_debug_hooks} lib{config}
-lib{hashtable_debug_hooks}: cxx.export.libs += lib{config}
-./: lib{have_sse}: absl/container/internal/hxx{have_sse}
-./: lib{node_hash_policy}: absl/container/internal/hxx{node_hash_policy} lib{config}
-lib{node_hash_policy}: cxx.export.libs += lib{config}
-./: lib{raw_hash_map}: absl/container/internal/hxx{raw_hash_map} lib{container_memory raw_hash_set throw_delegate}
-lib{raw_hash_map}: cxx.export.libs += lib{container_memory raw_hash_set throw_delegate}
-./: lib{container_common}: absl/container/internal/hxx{common} lib{type_traits}
-lib{container_common}: cxx.export.libs += lib{type_traits}
+./: lib{absl_hashtable_debug}: absl/container/internal/hxx{hashtable_debug} lib{absl_hashtable_debug_hooks}
+lib{absl_hashtable_debug}: cxx.export.libs += lib{absl_hashtable_debug_hooks}
+./: lib{absl_hashtable_debug_hooks}: absl/container/internal/hxx{hashtable_debug_hooks} lib{absl_config}
+lib{absl_hashtable_debug_hooks}: cxx.export.libs += lib{absl_config}
+./: lib{absl_have_sse}: absl/container/internal/hxx{have_sse}
+./: lib{absl_node_hash_policy}: absl/container/internal/hxx{node_hash_policy} lib{absl_config}
+lib{absl_node_hash_policy}: cxx.export.libs += lib{absl_config}
+./: lib{absl_raw_hash_map}: absl/container/internal/hxx{raw_hash_map} lib{absl_container_memory} lib{absl_raw_hash_set} lib{absl_throw_delegate}
+lib{absl_raw_hash_map}: cxx.export.libs += lib{absl_container_memory} lib{absl_raw_hash_set} lib{absl_throw_delegate}
+./: lib{absl_container_common}: absl/container/internal/hxx{common} lib{absl_type_traits}
+lib{absl_container_common}: cxx.export.libs += lib{absl_type_traits}
 
-./: lib{raw_hash_set}: libul{raw_hash_set}: \
+./: lib{absl_raw_hash_set}: libul{absl_raw_hash_set}: \
     absl/container/internal/{cxx hxx}{raw_hash_set} \
-    lib{bits compressed_tuple config container_common container_memory core_headers endian hash_policy_traits hashtable_debug_hooks have_sse memory meta optional utility hashtablez_sampler}
-lib{raw_hash_set}: cxx.export.libs += lib{bits compressed_tuple config container_common container_memory core_headers endian hash_policy_traits hashtable_debug_hooks have_sse memory meta optional utility hashtablez_sampler}
-lib{raw_hash_set}: def{raw_hash_set}: include = ($cxx.target.system == 'win32-msvc')
-def{raw_hash_set}: libul{raw_hash_set}
+    lib{absl_bits} lib{absl_compressed_tuple} lib{absl_config} lib{absl_container_common} lib{absl_container_memory} lib{absl_core_headers} lib{absl_endian} lib{absl_hash_policy_traits} lib{absl_hashtable_debug_hooks} lib{absl_have_sse} lib{absl_memory} lib{absl_meta} lib{absl_optional} lib{absl_utility} lib{absl_hashtablez_sampler}
+lib{absl_raw_hash_set}: cxx.export.libs += lib{absl_bits} lib{absl_compressed_tuple} lib{absl_config} lib{absl_container_common} lib{absl_container_memory} lib{absl_core_headers} lib{absl_endian} lib{absl_hash_policy_traits} lib{absl_hashtable_debug_hooks} lib{absl_have_sse} lib{absl_memory} lib{absl_meta} lib{absl_optional} lib{absl_utility} lib{absl_hashtablez_sampler}
+lib{absl_raw_hash_set}: def{raw_hash_set}: include = ($cxx.target.system == 'win32-msvc')
+def{raw_hash_set}: libul{absl_raw_hash_set}
 
-./: lib{layout}: absl/container/internal/hxx{layout} lib{config core_headers meta strings span utility}
-lib{layout}: cxx.export.libs += lib{config core_headers meta strings span utility}
+./: lib{absl_layout}: absl/container/internal/hxx{layout} lib{absl_config} lib{absl_core_headers} lib{absl_meta} lib{absl_strings} lib{absl_span} lib{absl_utility}
+lib{absl_layout}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_meta} lib{absl_strings} lib{absl_span} lib{absl_utility}
 
 # debugging
-./: lib{stacktrace}: libul{stacktrace}: \
+./: lib{absl_stacktrace}: libul{absl_stacktrace}: \
     absl/debugging/{hxx cxx}{stacktrace} \
     absl/debugging/internal/hxx{stacktrace_config} \
     absl/debugging/internal/ixx{stacktrace_aarch64-inl stacktrace_arm-inl stacktrace_emscripten-inl stacktrace_generic-inl stacktrace_powerpc-inl stacktrace_riscv-inl stacktrace_unimplemented-inl stacktrace_win32-inl stacktrace_x86-inl} \
-    lib{debugging_internal config core_headers}
-lib{stacktrace}: cxx.export.libs += lib{debugging_internal config core_headers}
-lib{stacktrace}: def{stacktrace}: include = ($cxx.target.system == 'win32-msvc')
-def{stacktrace}: libul{stacktrace}
+    lib{absl_debugging_internal} lib{absl_config} lib{absl_core_headers}
+lib{absl_stacktrace}: cxx.export.libs += lib{absl_debugging_internal} lib{absl_config} lib{absl_core_headers}
+lib{absl_stacktrace}: def{stacktrace}: include = ($cxx.target.system == 'win32-msvc')
+def{stacktrace}: libul{absl_stacktrace}
 
-./: lib{symbolize}: libul{symbolize}: \
+./: lib{absl_symbolize}: libul{absl_symbolize}: \
     absl/debugging/{hxx cxx}{symbolize} \
     absl/debugging/internal/hxx{symbolize} \
     absl/debugging/ixx{symbolize_darwin symbolize_elf symbolize_emscripten symbolize_unimplemented symbolize_win32} \
-    lib{debugging_internal demangle_internal base config core_headers dynamic_annotations malloc_internal raw_logging_internal strings}
-lib{symbolize}: cxx.export.libs += lib{debugging_internal demangle_internal base config core_headers dynamic_annotations malloc_internal raw_logging_internal strings}
-lib{symbolize}: def{symbolize}: include = ($cxx.target.system == 'win32-msvc')
-def{symbolize}: libul{symbolize}
+    lib{absl_debugging_internal} lib{absl_demangle_internal} lib{absl_base} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_malloc_internal} lib{absl_raw_logging_internal} lib{absl_strings}
+lib{absl_symbolize}: cxx.export.libs += lib{absl_debugging_internal} lib{absl_demangle_internal} lib{absl_base} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_malloc_internal} lib{absl_raw_logging_internal} lib{absl_strings}
+lib{absl_symbolize}: def{symbolize}: include = ($cxx.target.system == 'win32-msvc')
+def{symbolize}: libul{absl_symbolize}
 
 if ($cxx.target.class == 'windows')
 {
     if ($cxx.target.system == 'mingw32')
-        lib{symbolize}: cxx.libs += "-ldbghelp"
+        lib{absl_symbolize}: cxx.libs += "-ldbghelp"
     else
-        lib{symbolize}: cxx.libs += "dbghelp.lib"
+        lib{absl_symbolize}: cxx.libs += "dbghelp.lib"
 }
 
-./: lib{examine_stack}: libul{examine_stack}: \
+./: lib{absl_examine_stack}: libul{absl_examine_stack}: \
     absl/debugging/internal/{cxx hxx}{examine_stack} \
-    lib{stacktrace symbolize config core_headers raw_logging_internal}
-lib{examine_stack}: cxx.export.libs += lib{stacktrace symbolize config core_headers raw_logging_internal}
-lib{examine_stack}: def{examine_stack}: include = ($cxx.target.system == 'win32-msvc')
-def{examine_stack}: libul{examine_stack}
+    lib{absl_stacktrace} lib{absl_symbolize} lib{absl_config} lib{absl_core_headers} lib{absl_raw_logging_internal}
+lib{absl_examine_stack}: cxx.export.libs += lib{absl_stacktrace} lib{absl_symbolize} lib{absl_config} lib{absl_core_headers} lib{absl_raw_logging_internal}
+lib{absl_examine_stack}: def{examine_stack}: include = ($cxx.target.system == 'win32-msvc')
+def{examine_stack}: libul{absl_examine_stack}
 
-./: lib{failure_signal_handler}: libul{failure_signal_handler}: \
+./: lib{absl_failure_signal_handler}: libul{absl_failure_signal_handler}: \
     absl/debugging/{cxx hxx}{failure_signal_handler} \
-    lib{examine_stack stacktrace base config core_headers errno_saver raw_logging_internal}
-lib{failure_signal_handler}: cxx.export.libs += lib{examine_stack stacktrace base config core_headers errno_saver raw_logging_internal}
-lib{failure_signal_handler}: def{failure_signal_handler}: include = ($cxx.target.system == 'win32-msvc')
-def{failure_signal_handler}: libul{failure_signal_handler}
+    lib{absl_examine_stack} lib{absl_stacktrace} lib{absl_base} lib{absl_config} lib{absl_core_headers} lib{absl_errno_saver} lib{absl_raw_logging_internal}
+lib{absl_failure_signal_handler}: cxx.export.libs += lib{absl_examine_stack} lib{absl_stacktrace} lib{absl_base} lib{absl_config} lib{absl_core_headers} lib{absl_errno_saver} lib{absl_raw_logging_internal}
+lib{absl_failure_signal_handler}: def{failure_signal_handler}: include = ($cxx.target.system == 'win32-msvc')
+def{failure_signal_handler}: libul{absl_failure_signal_handler}
 
-./: lib{debugging_internal}: libul{debugging_internal}: \
+./: lib{absl_debugging_internal}: libul{absl_debugging_internal}: \
     absl/debugging/internal/{cxx hxx}{address_is_readable elf_mem_image vdso_support} \
-    lib{core_headers config dynamic_annotations errno_saver raw_logging_internal}
-lib{debugging_internal}: cxx.export.libs += lib{core_headers config dynamic_annotations errno_saver raw_logging_internal}
-lib{debugging_internal}: def{debugging_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{debugging_internal}: libul{debugging_internal}
+    lib{absl_core_headers} lib{absl_config} lib{absl_dynamic_annotations} lib{absl_errno_saver} lib{absl_raw_logging_internal}
+lib{absl_debugging_internal}: cxx.export.libs += lib{absl_core_headers} lib{absl_config} lib{absl_dynamic_annotations} lib{absl_errno_saver} lib{absl_raw_logging_internal}
+lib{absl_debugging_internal}: def{debugging_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{debugging_internal}: libul{absl_debugging_internal}
 
-./: lib{demangle_internal}: libul{demangle_internal}: \
+./: lib{absl_demangle_internal}: libul{absl_demangle_internal}: \
     absl/debugging/internal/{cxx hxx}{demangle} \
-    lib{base core_headers}
-lib{demangle_internal}: cxx.export.libs += lib{base core_headers}
-lib{demangle_internal}: def{demangle_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{demangle_internal}: libul{demangle_internal}
+    lib{absl_base} lib{absl_core_headers}
+lib{absl_demangle_internal}: cxx.export.libs += lib{absl_base} lib{absl_core_headers}
+lib{absl_demangle_internal}: def{demangle_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{demangle_internal}: libul{absl_demangle_internal}
 
-./: lib{leak_check}: libul{leak_check}: \
+./: lib{absl_leak_check}: libul{absl_leak_check}: \
     absl/debugging/{cxx hxx}{leak_check} \
-    lib{config core_headers}
-lib{leak_check}: cxx.export.libs += lib{config core_headers}
-lib{leak_check}: def{leak_check}: include = ($cxx.target.system == 'win32-msvc')
-def{leak_check}: libul{leak_check}
+    lib{absl_config} lib{absl_core_headers}
+lib{absl_leak_check}: cxx.export.libs += lib{absl_config} lib{absl_core_headers}
+lib{absl_leak_check}: def{leak_check}: include = ($cxx.target.system == 'win32-msvc')
+def{leak_check}: libul{absl_leak_check}
 
-./: lib{leak_check_disable}: libul{leak_check_disable}: \
+./: lib{absl_leak_check_disable}: libul{absl_leak_check_disable}: \
     absl/debugging/cxx{leak_check_disable}
-lib{leak_check_disable}: def{leak_check_disable}: include = ($cxx.target.system == 'win32-msvc')
-def{leak_check_disable}: libul{leak_check_disable}
+lib{absl_leak_check_disable}: def{leak_check_disable}: include = ($cxx.target.system == 'win32-msvc')
+def{leak_check_disable}: libul{absl_leak_check_disable}
 
-./: lib{debugging}: libul{debugging}: lib{stacktrace leak_check}
-lib{debugging}: cxx.export.libs += lib{stacktrace leak_check}
-lib{debugging}: def{debugging}: include = ($cxx.target.system == 'win32-msvc')
-def{debugging}: libul{debugging}
+./: lib{absl_debugging}: libul{absl_debugging}: lib{absl_stacktrace} lib{absl_leak_check}
+lib{absl_debugging}: cxx.export.libs += lib{absl_stacktrace} lib{absl_leak_check}
+lib{absl_debugging}: def{debugging}: include = ($cxx.target.system == 'win32-msvc')
+def{debugging}: libul{absl_debugging}
 
 # flags
-./: lib{flags_path_util}: absl/flags/internal/hxx{path_util} lib{config strings}
-lib{flags_path_util}: cxx.export.libs += lib{config strings}
+./: lib{absl_flags_path_util}: absl/flags/internal/hxx{path_util} lib{absl_config} lib{absl_strings}
+lib{absl_flags_path_util}: cxx.export.libs += lib{absl_config} lib{absl_strings}
 
-./: lib{flags_program_name}: libul{flags_program_name}: \
+./: lib{absl_flags_program_name}: libul{absl_flags_program_name}: \
     absl/flags/internal/{cxx hxx}{program_name} \
-    lib{config core_headers flags_path_util strings synchronization}
-lib{flags_program_name}: cxx.export.libs += lib{config core_headers flags_path_util strings synchronization}
-lib{flags_program_name}: def{flags_program_name}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_program_name}: libul{flags_program_name}
+    lib{absl_config} lib{absl_core_headers} lib{absl_flags_path_util} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_program_name}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_flags_path_util} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_program_name}: def{flags_program_name}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_program_name}: libul{absl_flags_program_name}
 
-./: lib{flags_config}: libul{flags_config}: \
+./: lib{absl_flags_config}: libul{absl_flags_config}: \
     absl/flags/hxx{config} \
     absl/flags/{cxx hxx}{usage_config} \
-    lib{config flags_path_util flags_program_name core_headers strings synchronization}
-lib{flags_config}: cxx.export.libs += lib{config flags_path_util flags_program_name core_headers strings synchronization}
-lib{flags_config}: def{flags_config}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_config}: libul{flags_config}
+    lib{absl_config} lib{absl_flags_path_util} lib{absl_flags_program_name} lib{absl_core_headers} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_config}: cxx.export.libs += lib{absl_config} lib{absl_flags_path_util} lib{absl_flags_program_name} lib{absl_core_headers} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_config}: def{flags_config}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_config}: libul{absl_flags_config}
 
-./: lib{flags_marshalling}: libul{flags_marshalling}: \
+./: lib{absl_flags_marshalling}: libul{absl_flags_marshalling}: \
     absl/flags/{cxx hxx}{marshalling} \
-    lib{config core_headers log_severity strings str_format}
-lib{flags_marshalling}: cxx.export.libs += lib{config core_headers log_severity strings str_format}
-lib{flags_marshalling}: def{flags_marshalling}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_marshalling}: libul{flags_marshalling}
+    lib{absl_config} lib{absl_core_headers} lib{absl_log_severity} lib{absl_strings} lib{absl_str_format}
+lib{absl_flags_marshalling}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_log_severity} lib{absl_strings} lib{absl_str_format}
+lib{absl_flags_marshalling}: def{flags_marshalling}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_marshalling}: libul{absl_flags_marshalling}
 
-./: lib{flags_commandlineflag_internal}: libul{flags_commandlineflag_internal}: \
+./: lib{absl_flags_commandlineflag_internal}: libul{absl_flags_commandlineflag_internal}: \
     absl/flags/internal/{cxx hxx}{commandlineflag} \
-    lib{config dynamic_annotations fast_type_id}
-lib{flags_commandlineflag_internal}: cxx.export.libs += lib{config dynamic_annotations fast_type_id}
-lib{flags_commandlineflag_internal}: def{flags_commandlineflag_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_commandlineflag_internal}: libul{flags_commandlineflag_internal}
+    lib{absl_config} lib{absl_dynamic_annotations} lib{absl_fast_type_id}
+lib{absl_flags_commandlineflag_internal}: cxx.export.libs += lib{absl_config} lib{absl_dynamic_annotations} lib{absl_fast_type_id}
+lib{absl_flags_commandlineflag_internal}: def{flags_commandlineflag_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_commandlineflag_internal}: libul{absl_flags_commandlineflag_internal}
 
-./: lib{flags_commandlineflag}: libul{flags_commandlineflag}: \
+./: lib{absl_flags_commandlineflag}: libul{absl_flags_commandlineflag}: \
     absl/flags/{cxx hxx}{commandlineflag} \
-    lib{config fast_type_id flags_commandlineflag_internal optional strings}
-lib{flags_commandlineflag}: cxx.export.libs += lib{config fast_type_id flags_commandlineflag_internal optional strings}
-lib{flags_commandlineflag}: def{flags_commandlineflag}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_commandlineflag}: libul{flags_commandlineflag}
+    lib{absl_config} lib{absl_fast_type_id} lib{absl_flags_commandlineflag_internal} lib{absl_optional} lib{absl_strings}
+lib{absl_flags_commandlineflag}: cxx.export.libs += lib{absl_config} lib{absl_fast_type_id} lib{absl_flags_commandlineflag_internal} lib{absl_optional} lib{absl_strings}
+lib{absl_flags_commandlineflag}: def{flags_commandlineflag}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_commandlineflag}: libul{absl_flags_commandlineflag}
 
-./: lib{flags_private_handle_accessor}: libul{flags_private_handle_accessor}: \
+./: lib{absl_flags_private_handle_accessor}: libul{absl_flags_private_handle_accessor}: \
     absl/flags/internal/{cxx hxx}{private_handle_accessor} \
-    lib{config flags_commandlineflag_internal flags_commandlineflag strings}
-lib{flags_private_handle_accessor}: cxx.export.libs += lib{config flags_commandlineflag_internal flags_commandlineflag strings}
-lib{flags_private_handle_accessor}: def{flags_private_handle_accessor}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_private_handle_accessor}: libul{flags_private_handle_accessor}
+    lib{absl_config} lib{absl_flags_commandlineflag_internal} lib{absl_flags_commandlineflag} lib{absl_strings}
+lib{absl_flags_private_handle_accessor}: cxx.export.libs += lib{absl_config} lib{absl_flags_commandlineflag_internal} lib{absl_flags_commandlineflag} lib{absl_strings}
+lib{absl_flags_private_handle_accessor}: def{flags_private_handle_accessor}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_private_handle_accessor}: libul{absl_flags_private_handle_accessor}
 
-./: lib{flags_reflection}: libul{flags_reflection}: \
+./: lib{absl_flags_reflection}: libul{absl_flags_reflection}: \
     absl/flags/{cxx hxx}{reflection} \
     absl/flags/internal/hxx{registry} \
-    lib{config flags_commandlineflag flags_private_handle_accessor flags_config strings synchronization flat_hash_map}
-lib{flags_reflection}: cxx.export.libs += lib{config flags_commandlineflag flags_private_handle_accessor flags_config strings synchronization flat_hash_map}
-lib{flags_reflection}: def{flags_reflection}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_reflection}: libul{flags_reflection}
+    lib{absl_config} lib{absl_flags_commandlineflag} lib{absl_flags_private_handle_accessor} lib{absl_flags_config} lib{absl_strings} lib{absl_synchronization} lib{absl_flat_hash_map}
+lib{absl_flags_reflection}: cxx.export.libs += lib{absl_config} lib{absl_flags_commandlineflag} lib{absl_flags_private_handle_accessor} lib{absl_flags_config} lib{absl_strings} lib{absl_synchronization} lib{absl_flat_hash_map}
+lib{absl_flags_reflection}: def{flags_reflection}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_reflection}: libul{absl_flags_reflection}
 
-./: lib{flags_internal}: libul{flags_internal}: \
+./: lib{absl_flags_internal}: libul{absl_flags_internal}: \
     absl/flags/internal/{cxx hxx}{flag} \
     absl/flags/internal/hxx{sequence_lock} \
-    lib{base config flags_commandlineflag flags_commandlineflag_internal flags_config flags_marshalling synchronization meta utility}
-lib{flags_internal}: cxx.export.libs += lib{base config flags_commandlineflag flags_commandlineflag_internal flags_config flags_marshalling synchronization meta utility}
-lib{flags_commandlineflag}: def{flags_commandlineflag}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_commandlineflag}: libul{flags_commandlineflag}
+    lib{absl_base} lib{absl_config} lib{absl_flags_commandlineflag} lib{absl_flags_commandlineflag_internal} lib{absl_flags_config} lib{absl_flags_marshalling} lib{absl_synchronization} lib{absl_meta} lib{absl_utility}
+lib{absl_flags_internal}: cxx.export.libs += lib{absl_base} lib{absl_config} lib{absl_flags_commandlineflag} lib{absl_flags_commandlineflag_internal} lib{absl_flags_config} lib{absl_flags_marshalling} lib{absl_synchronization} lib{absl_meta} lib{absl_utility}
+lib{absl_flags_commandlineflag}: def{flags_commandlineflag}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_commandlineflag}: libul{absl_flags_commandlineflag}
 
-./: lib{flags}: libul{flags}: \
+./: lib{absl_flags}: libul{absl_flags}: \
     absl/flags/{cxx hxx}{flag} \
     absl/flags/hxx{declare} \
     absl/flags/internal/ixx{flag_msvc} \
-    lib{config flags_commandlineflag flags_config flags_internal flags_reflection base core_headers strings}
-lib{flags}: cxx.export.libs += lib{config flags_commandlineflag flags_config flags_internal flags_reflection base core_headers strings}
-lib{flags}: def{flags}: include = ($cxx.target.system == 'win32-msvc')
-def{flags}: libul{flags}
+    lib{absl_config} lib{absl_flags_commandlineflag} lib{absl_flags_config} lib{absl_flags_internal} lib{absl_flags_reflection} lib{absl_base} lib{absl_core_headers} lib{absl_strings}
+lib{absl_flags}: cxx.export.libs += lib{absl_config} lib{absl_flags_commandlineflag} lib{absl_flags_config} lib{absl_flags_internal} lib{absl_flags_reflection} lib{absl_base} lib{absl_core_headers} lib{absl_strings}
+lib{absl_flags}: def{flags}: include = ($cxx.target.system == 'win32-msvc')
+def{flags}: libul{absl_flags}
 
-./: lib{flags_usage_internal}: libul{flags_usage_internal}: \
+./: lib{absl_flags_usage_internal}: libul{absl_flags_usage_internal}: \
     absl/flags/internal/{cxx hxx}{usage} \
-    lib{config flags_config flags flags_commandlineflag flags_internal flags_path_util flags_private_handle_accessor flags_program_name flags_reflection flat_hash_map strings synchronization}
-lib{flags_usage_internal}: cxx.export.libs += lib{config flags_config flags flags_commandlineflag flags_internal flags_path_util flags_private_handle_accessor flags_program_name flags_reflection flat_hash_map strings synchronization}
-lib{flags_usage_internal}: def{flags_usage_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_usage_internal}: libul{flags_usage_internal}
+    lib{absl_config} lib{absl_flags_config} lib{absl_flags} lib{absl_flags_commandlineflag} lib{absl_flags_internal} lib{absl_flags_path_util} lib{absl_flags_private_handle_accessor} lib{absl_flags_program_name} lib{absl_flags_reflection} lib{absl_flat_hash_map} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_usage_internal}: cxx.export.libs += lib{absl_config} lib{absl_flags_config} lib{absl_flags} lib{absl_flags_commandlineflag} lib{absl_flags_internal} lib{absl_flags_path_util} lib{absl_flags_private_handle_accessor} lib{absl_flags_program_name} lib{absl_flags_reflection} lib{absl_flat_hash_map} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_usage_internal}: def{flags_usage_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_usage_internal}: libul{absl_flags_usage_internal}
 
-./: lib{flags_usage}: libul{flags_usage}: \
+./: lib{absl_flags_usage}: libul{absl_flags_usage}: \
     absl/flags/{cxx hxx}{usage} \
-    lib{config core_headers flags_usage_internal strings synchronization}
-lib{flags_usage}: cxx.export.libs += lib{config core_headers flags_usage_internal strings synchronization}
-lib{flags_usage}: def{flags_usage}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_usage}: libul{flags_usage}
+    lib{absl_config} lib{absl_core_headers} lib{absl_flags_usage_internal} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_usage}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_flags_usage_internal} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_usage}: def{flags_usage}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_usage}: libul{absl_flags_usage}
 
-./: lib{flags_parse}: libul{flags_parse}: \
+./: lib{absl_flags_parse}: libul{absl_flags_parse}: \
     absl/flags/{cxx hxx}{parse} \
     absl/flags/internal/hxx{parse} \
-    lib{config core_headers flags_config flags flags_commandlineflag flags_commandlineflag_internal flags_internal flags_private_handle_accessor flags_program_name flags_reflection flags_usage strings synchronization}
-lib{flags_parse}: cxx.export.libs += lib{config core_headers flags_config flags flags_commandlineflag flags_commandlineflag_internal flags_internal flags_private_handle_accessor flags_program_name flags_reflection flags_usage strings synchronization}
-lib{flags_parse}: def{flags_parse}: include = ($cxx.target.system == 'win32-msvc')
-def{flags_parse}: libul{flags_parse}
+    lib{absl_config} lib{absl_core_headers} lib{absl_flags_config} lib{absl_flags} lib{absl_flags_commandlineflag} lib{absl_flags_commandlineflag_internal} lib{absl_flags_internal} lib{absl_flags_private_handle_accessor} lib{absl_flags_program_name} lib{absl_flags_reflection} lib{absl_flags_usage} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_parse}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_flags_config} lib{absl_flags} lib{absl_flags_commandlineflag} lib{absl_flags_commandlineflag_internal} lib{absl_flags_internal} lib{absl_flags_private_handle_accessor} lib{absl_flags_program_name} lib{absl_flags_reflection} lib{absl_flags_usage} lib{absl_strings} lib{absl_synchronization}
+lib{absl_flags_parse}: def{flags_parse}: include = ($cxx.target.system == 'win32-msvc')
+def{flags_parse}: libul{absl_flags_parse}
 
 # functional
-./: lib{bind_front}: absl/functional/hxx{bind_front internal/front_binder} lib{base_internal compressed_tuple}
-lib{bind_front}: cxx.export.libs += lib{base_internal compressed_tuple}
-./: lib{function_ref}: absl/functional/hxx{function_ref internal/function_ref} lib{base_internal core_headers meta}
-lib{function_ref}: cxx.export.libs += lib{base_internal core_headers meta}
+./: lib{absl_bind_front}: absl/functional/hxx{bind_front internal/front_binder} lib{absl_base_internal} lib{absl_compressed_tuple}
+lib{absl_bind_front}: cxx.export.libs += lib{absl_base_internal} lib{absl_compressed_tuple}
+./: lib{absl_function_ref}: absl/functional/hxx{function_ref internal/function_ref} lib{absl_base_internal} lib{absl_core_headers} lib{absl_meta}
+lib{absl_function_ref}: cxx.export.libs += lib{absl_base_internal} lib{absl_core_headers} lib{absl_meta}
 
 # hash
-./: lib{hash}: libul{hash}: \
+./: lib{absl_hash}: libul{absl_hash}: \
     absl/hash/hxx{hash} \
     absl/hash/internal/{cxx hxx}{hash} \
-    lib{city config core_headers endian fixed_array meta int128 strings optional variant utility low_level_hash}
-lib{hash}: cxx.export.libs += lib{city config core_headers endian fixed_array meta int128 strings optional variant utility low_level_hash}
-lib{hash}: def{hash}: include = ($cxx.target.system == 'win32-msvc')
-def{hash}: libul{hash}
+    lib{absl_city} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_fixed_array} lib{absl_meta} lib{absl_int128} lib{absl_strings} lib{absl_optional} lib{absl_variant} lib{absl_utility} lib{absl_low_level_hash}
+lib{absl_hash}: cxx.export.libs += lib{absl_city} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_fixed_array} lib{absl_meta} lib{absl_int128} lib{absl_strings} lib{absl_optional} lib{absl_variant} lib{absl_utility} lib{absl_low_level_hash}
+lib{absl_hash}: def{hash}: include = ($cxx.target.system == 'win32-msvc')
+def{hash}: libul{absl_hash}
 
-./: lib{city}: libul{city}: \
+./: lib{absl_city}: libul{absl_city}: \
     absl/hash/internal/{cxx hxx}{city} \
-    lib{config core_headers endian}
-lib{city}: cxx.export.libs += lib{config core_headers endian}
-lib{city}: def{city}: include = ($cxx.target.system == 'win32-msvc')
-def{city}: libul{city}
+    lib{absl_config} lib{absl_core_headers} lib{absl_endian}
+lib{absl_city}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_endian}
+lib{absl_city}: def{city}: include = ($cxx.target.system == 'win32-msvc')
+def{city}: libul{absl_city}
 
-./: lib{low_level_hash}: libul{low_level_hash}: \
+./: lib{absl_low_level_hash}: libul{absl_low_level_hash}: \
     absl/hash/internal/{cxx hxx}{low_level_hash} \
-    lib{bits config endian int128}
-lib{low_level_hash}: cxx.export.libs += lib{bits config endian int128}
-lib{low_level_hash}: def{low_level_hash}: include = ($cxx.target.system == 'win32-msvc')
-def{low_level_hash}: libul{low_level_hash}
+    lib{absl_bits} lib{absl_config} lib{absl_endian} lib{absl_int128}
+lib{absl_low_level_hash}: cxx.export.libs += lib{absl_bits} lib{absl_config} lib{absl_endian} lib{absl_int128}
+lib{absl_low_level_hash}: def{low_level_hash}: include = ($cxx.target.system == 'win32-msvc')
+def{low_level_hash}: libul{absl_low_level_hash}
 
 # memory
-./: lib{memory}: absl/memory/hxx{memory} lib{core_headers meta}
-lib{memory}: cxx.export.libs += lib{core_headers meta}
+./: lib{absl_memory}: absl/memory/hxx{memory} lib{absl_core_headers} lib{absl_meta}
+lib{absl_memory}: cxx.export.libs += lib{absl_core_headers} lib{absl_meta}
 
 # meta
-./: lib{type_traits}: absl/meta/hxx{type_traits} lib{config}
-lib{type_traits}: cxx.export.libs += lib{config}
-./: lib{meta}: lib{type_traits}
-lib{meta}: cxx.export.libs += lib{type_traits}
+./: lib{absl_type_traits}: absl/meta/hxx{type_traits} lib{absl_config}
+lib{absl_type_traits}: cxx.export.libs += lib{absl_config}
+./: lib{absl_meta}: lib{absl_type_traits}
+lib{absl_meta}: cxx.export.libs += lib{absl_type_traits}
 
 # numeric
-./: lib{bits}: absl/numeric/hxx{bits internal/bits} lib{core_headers}
-lib{bits}: cxx.export.libs += lib{core_headers}
+./: lib{absl_bits}: absl/numeric/hxx{bits internal/bits} lib{absl_core_headers}
+lib{absl_bits}: cxx.export.libs += lib{absl_core_headers}
 
-./: lib{int128}: libul{int128}: \
+./: lib{absl_int128}: libul{absl_int128}: \
     absl/numeric/{cxx hxx}{int128} \
     absl/numeric/ixx{int128_have_intrinsic int128_no_intrinsic} \
-    lib{config core_headers bits}
-lib{int128}: cxx.export.libs += lib{config core_headers bits}
-lib{int128}: def{int128}: include = ($cxx.target.system == 'win32-msvc')
-def{int128}: libul{int128}
+    lib{absl_config} lib{absl_core_headers} lib{absl_bits}
+lib{absl_int128}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_bits}
+lib{absl_int128}: def{int128}: include = ($cxx.target.system == 'win32-msvc')
+def{int128}: libul{absl_int128}
 
-./: lib{numeric}: libul{numeric}: lib{int128}
-lib{numeric}: cxx.export.libs += lib{int128}
-lib{numeric}: def{numeric}: include = ($cxx.target.system == 'win32-msvc')
-def{numeric}: libul{numeric}
+./: lib{absl_numeric}: libul{absl_numeric}: lib{absl_int128}
+lib{absl_numeric}: cxx.export.libs += lib{absl_int128}
+lib{absl_numeric}: def{numeric}: include = ($cxx.target.system == 'win32-msvc')
+def{numeric}: libul{absl_numeric}
 
-./: lib{numeric_representation}: absl/numeric/internal/hxx{representation}
+./: lib{absl_numeric_representation}: absl/numeric/internal/hxx{representation}
 
 # profiling
-./: lib{sample_recorder}: absl/profiling/internal/hxx{sample_recorder} lib{base synchronization}
-lib{sample_recorder}: cxx.export.libs += lib{base synchronization}
+./: lib{absl_sample_recorder}: absl/profiling/internal/hxx{sample_recorder} lib{absl_base} lib{absl_synchronization}
+lib{absl_sample_recorder}: cxx.export.libs += lib{absl_base} lib{absl_synchronization}
 
-./: lib{exponential_biased}: libul{exponential_biased}: \
+./: lib{absl_exponential_biased}: libul{absl_exponential_biased}: \
     absl/profiling/internal/{cxx hxx}{exponential_biased} \
-    lib{config core_headers}
-lib{exponential_biased}: cxx.export.libs += lib{config core_headers}
-lib{exponential_biased}: def{exponential_biased}: include = ($cxx.target.system == 'win32-msvc')
-def{exponential_biased}: libul{exponential_biased}
+    lib{absl_config} lib{absl_core_headers}
+lib{absl_exponential_biased}: cxx.export.libs += lib{absl_config} lib{absl_core_headers}
+lib{absl_exponential_biased}: def{exponential_biased}: include = ($cxx.target.system == 'win32-msvc')
+def{exponential_biased}: libul{absl_exponential_biased}
 
-./: lib{periodic_sampler}: libul{periodic_sampler}: \
+./: lib{absl_periodic_sampler}: libul{absl_periodic_sampler}: \
     absl/profiling/internal/{cxx hxx}{periodic_sampler} \
-    lib{core_headers exponential_biased}
-lib{periodic_sampler}: cxx.export.libs += lib{core_headers exponential_biased}
-lib{periodic_sampler}: def{periodic_sampler}: include = ($cxx.target.system == 'win32-msvc')
-def{periodic_sampler}: libul{periodic_sampler}
+    lib{absl_core_headers} lib{absl_exponential_biased}
+lib{absl_periodic_sampler}: cxx.export.libs += lib{absl_core_headers} lib{absl_exponential_biased}
+lib{absl_periodic_sampler}: def{periodic_sampler}: include = ($cxx.target.system == 'win32-msvc')
+def{periodic_sampler}: libul{absl_periodic_sampler}
 
 # random
-./: lib{random_random}: absl/random/hxx{random} lib{random_distributions random_internal_nonsecure_base random_internal_pcg_engine random_internal_pool_urbg random_internal_randen_engine random_seed_sequences}
-lib{random_random}: cxx.export.libs += lib{random_distributions random_internal_nonsecure_base random_internal_pcg_engine random_internal_pool_urbg random_internal_randen_engine random_seed_sequences}
-./: lib{random_bit_gen_ref}: absl/random/hxx{bit_gen_ref}
-./: lib{random_internal_mock_helpers}: absl/random/internal/hxx{mock_helpers}
+./: lib{absl_random_random}: absl/random/hxx{random} lib{absl_random_distributions} lib{absl_random_internal_nonsecure_base} lib{absl_random_internal_pcg_engine} lib{absl_random_internal_pool_urbg} lib{absl_random_internal_randen_engine} lib{absl_random_seed_sequences}
+lib{absl_random_random}: cxx.export.libs += lib{absl_random_distributions} lib{absl_random_internal_nonsecure_base} lib{absl_random_internal_pcg_engine} lib{absl_random_internal_pool_urbg} lib{absl_random_internal_randen_engine} lib{absl_random_seed_sequences}
+./: lib{absl_random_bit_gen_ref}: absl/random/hxx{bit_gen_ref}
+./: lib{absl_random_internal_mock_helpers}: absl/random/internal/hxx{mock_helpers}
 
-./: lib{random_distributions}: libul{random_distributions}: \
+./: lib{absl_random_distributions}: libul{absl_random_distributions}: \
     absl/random/{cxx hxx}{discrete_distribution gaussian_distribution} \
     absl/random/hxx{bernoulli_distribution beta_distribution distributions exponential_distribution log_uniform_int_distribution poisson_distribution uniform_int_distribution uniform_real_distribution zipf_distribution} \
-    lib{base_internal config core_headers random_internal_generate_real random_internal_distribution_caller random_internal_fast_uniform_bits random_internal_fastmath random_internal_iostream_state_saver random_internal_traits random_internal_uniform_helper random_internal_wide_multiply strings type_traits}
-lib{random_distributions}: cxx.export.libs += lib{base_internal config core_headers random_internal_generate_real random_internal_distribution_caller random_internal_fast_uniform_bits random_internal_fastmath random_internal_iostream_state_saver random_internal_traits random_internal_uniform_helper random_internal_wide_multiply strings type_traits}
-lib{random_distributions}: def{random_distributions}: include = ($cxx.target.system == 'win32-msvc')
-def{random_distributions}: libul{random_distributions}
+    lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_random_internal_generate_real} lib{absl_random_internal_distribution_caller} lib{absl_random_internal_fast_uniform_bits} lib{absl_random_internal_fastmath} lib{absl_random_internal_iostream_state_saver} lib{absl_random_internal_traits} lib{absl_random_internal_uniform_helper} lib{absl_random_internal_wide_multiply} lib{absl_strings} lib{absl_type_traits}
+lib{absl_random_distributions}: cxx.export.libs += lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_random_internal_generate_real} lib{absl_random_internal_distribution_caller} lib{absl_random_internal_fast_uniform_bits} lib{absl_random_internal_fastmath} lib{absl_random_internal_iostream_state_saver} lib{absl_random_internal_traits} lib{absl_random_internal_uniform_helper} lib{absl_random_internal_wide_multiply} lib{absl_strings} lib{absl_type_traits}
+lib{absl_random_distributions}: def{random_distributions}: include = ($cxx.target.system == 'win32-msvc')
+def{random_distributions}: libul{absl_random_distributions}
 
-./: lib{random_seed_gen_exception}: libul{random_seed_gen_exception}: \
+./: lib{absl_random_seed_gen_exception}: libul{absl_random_seed_gen_exception}: \
     absl/random/{cxx hxx}{seed_gen_exception} \
-    lib{config}
-lib{random_seed_gen_exception}: cxx.export.libs += lib{config}
-lib{random_seed_gen_exception}: def{random_seed_gen_exception}: include = ($cxx.target.system == 'win32-msvc')
-def{random_seed_gen_exception}: libul{random_seed_gen_exception}
+    lib{absl_config}
+lib{absl_random_seed_gen_exception}: cxx.export.libs += lib{absl_config}
+lib{absl_random_seed_gen_exception}: def{random_seed_gen_exception}: include = ($cxx.target.system == 'win32-msvc')
+def{random_seed_gen_exception}: libul{absl_random_seed_gen_exception}
 
-./: lib{random_seed_sequences}: libul{random_seed_sequences}: \
+./: lib{absl_random_seed_sequences}: libul{absl_random_seed_sequences}: \
     absl/random/{cxx hxx}{seed_sequences} \
-    lib{inlined_vector random_internal_nonsecure_base random_internal_pool_urbg random_internal_salted_seed_seq random_internal_seed_material random_seed_gen_exception span}
-lib{random_seed_sequences}: cxx.export.libs += lib{inlined_vector random_internal_nonsecure_base random_internal_pool_urbg random_internal_salted_seed_seq random_internal_seed_material random_seed_gen_exception span}
-lib{random_seed_sequences}: def{random_seed_sequences}: include = ($cxx.target.system == 'win32-msvc')
-def{random_seed_sequences}: libul{random_seed_sequences}
+    lib{absl_inlined_vector} lib{absl_random_internal_nonsecure_base} lib{absl_random_internal_pool_urbg} lib{absl_random_internal_salted_seed_seq} lib{absl_random_internal_seed_material} lib{absl_random_seed_gen_exception} lib{absl_span}
+lib{absl_random_seed_sequences}: cxx.export.libs += lib{absl_inlined_vector} lib{absl_random_internal_nonsecure_base} lib{absl_random_internal_pool_urbg} lib{absl_random_internal_salted_seed_seq} lib{absl_random_internal_seed_material} lib{absl_random_seed_gen_exception} lib{absl_span}
+lib{absl_random_seed_sequences}: def{random_seed_sequences}: include = ($cxx.target.system == 'win32-msvc')
+def{random_seed_sequences}: libul{absl_random_seed_sequences}
 
-./: lib{random_internal_traits}: absl/random/internal/hxx{traits} lib{config}
-lib{random_internal_traits}: cxx.export.libs += lib{config}
-./: lib{random_internal_distribution_caller}: absl/random/internal/hxx{distribution_caller} lib{config utility fast_type_id}
-lib{random_internal_distribution_caller}: cxx.export.libs += lib{config utility fast_type_id}
-./: lib{random_internal_fast_uniform_bits}: absl/random/internal/hxx{fast_uniform_bits} lib{config}
-lib{random_internal_fast_uniform_bits}: cxx.export.libs += lib{config}
+./: lib{absl_random_internal_traits}: absl/random/internal/hxx{traits} lib{absl_config}
+lib{absl_random_internal_traits}: cxx.export.libs += lib{absl_config}
+./: lib{absl_random_internal_distribution_caller}: absl/random/internal/hxx{distribution_caller} lib{absl_config} lib{absl_utility} lib{absl_fast_type_id}
+lib{absl_random_internal_distribution_caller}: cxx.export.libs += lib{absl_config} lib{absl_utility} lib{absl_fast_type_id}
+./: lib{absl_random_internal_fast_uniform_bits}: absl/random/internal/hxx{fast_uniform_bits} lib{absl_config}
+lib{absl_random_internal_fast_uniform_bits}: cxx.export.libs += lib{absl_config}
 
-./: lib{random_internal_seed_material}: libul{random_internal_seed_material}: \
+./: lib{absl_random_internal_seed_material}: libul{absl_random_internal_seed_material}: \
     absl/random/internal/{cxx hxx}{seed_material} \
-    lib{core_headers optional random_internal_fast_uniform_bits raw_logging_internal span strings}
-lib{random_internal_seed_material}: cxx.export.libs += lib{core_headers optional random_internal_fast_uniform_bits raw_logging_internal span strings}
-lib{random_internal_seed_material}: def{random_internal_seed_material}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_seed_material}: libul{random_internal_seed_material}
+    lib{absl_core_headers} lib{absl_optional} lib{absl_random_internal_fast_uniform_bits} lib{absl_raw_logging_internal} lib{absl_span} lib{absl_strings}
+lib{absl_random_internal_seed_material}: cxx.export.libs += lib{absl_core_headers} lib{absl_optional} lib{absl_random_internal_fast_uniform_bits} lib{absl_raw_logging_internal} lib{absl_span} lib{absl_strings}
+lib{absl_random_internal_seed_material}: def{random_internal_seed_material}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_seed_material}: libul{absl_random_internal_seed_material}
 
 if ($cxx.target.class == 'windows')
 {
     if ($cxx.target.system == 'mingw32')
-        lib{symbolize}: cxx.libs += "-lbcrypt"
+        lib{absl_symbolize}: cxx.libs += "-lbcrypt"
     else
-        lib{symbolize}: cxx.libs += "bcrypt.lib"
+        lib{absl_symbolize}: cxx.libs += "bcrypt.lib"
 }
 
-./: lib{random_internal_pool_urbg}: libul{random_internal_pool_urbg}: \
+./: lib{absl_random_internal_pool_urbg}: libul{absl_random_internal_pool_urbg}: \
     absl/random/internal/{cxx hxx}{pool_urbg} \
-    lib{base config core_headers endian random_internal_randen random_internal_seed_material random_internal_traits random_seed_gen_exception raw_logging_internal span}
-lib{random_internal_pool_urbg}: cxx.export.libs += lib{base config core_headers endian random_internal_randen random_internal_seed_material random_internal_traits random_seed_gen_exception raw_logging_internal span}
-lib{random_internal_pool_urbg}: def{random_internal_pool_urbg}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_pool_urbg}: libul{random_internal_pool_urbg}
+    lib{absl_base} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_random_internal_randen} lib{absl_random_internal_seed_material} lib{absl_random_internal_traits} lib{absl_random_seed_gen_exception} lib{absl_raw_logging_internal} lib{absl_span}
+lib{absl_random_internal_pool_urbg}: cxx.export.libs += lib{absl_base} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_random_internal_randen} lib{absl_random_internal_seed_material} lib{absl_random_internal_traits} lib{absl_random_seed_gen_exception} lib{absl_raw_logging_internal} lib{absl_span}
+lib{absl_random_internal_pool_urbg}: def{random_internal_pool_urbg}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_pool_urbg}: libul{absl_random_internal_pool_urbg}
 
-./: lib{random_internal_salted_seed_seq}: absl/random/internal/hxx{salted_seed_seq} lib{inlined_vector optional span random_internal_seed_material type_traits}
-lib{random_internal_salted_seed_seq}: cxx.export.libs += lib{inlined_vector optional span random_internal_seed_material type_traits}
-./: lib{random_internal_iostream_state_saver}: absl/random/internal/hxx{iostream_state_saver} lib{int128 type_traits}
-lib{random_internal_iostream_state_saver}: cxx.export.libs += lib{int128 type_traits}
-./: lib{random_internal_generate_real}: absl/random/internal/hxx{generate_real} lib{bits random_internal_fastmath random_internal_traits type_traits}
-lib{random_internal_generate_real}: cxx.export.libs += lib{bits random_internal_fastmath random_internal_traits type_traits}
-./: lib{random_internal_wide_multiply}: absl/random/internal/hxx{wide_multiply} lib{bits config int128}
-lib{random_internal_wide_multiply}: cxx.export.libs += lib{bits config int128}
-./: lib{random_internal_fastmath}: absl/random/internal/hxx{fastmath} lib{bits}
-lib{random_internal_fastmath}: cxx.export.libs +=  lib{bits}
-./: lib{random_internal_nonsecure_base}: absl/random/internal/hxx{nonsecure_base} lib{core_headers optional random_internal_pool_urbg random_internal_salted_seed_seq random_internal_seed_material span type_traits}
-lib{random_internal_nonsecure_base}: cxx.export.libs += lib{core_headers optional random_internal_pool_urbg random_internal_salted_seed_seq random_internal_seed_material span type_traits}
-./: lib{random_internal_pcg_engine}: absl/random/internal/hxx{pcg_engine} lib{config int128 random_internal_fastmath random_internal_iostream_state_saver type_traits}
-lib{random_internal_pcg_engine}: cxx.export.libs += lib{config int128 random_internal_fastmath random_internal_iostream_state_saver type_traits}
-./: lib{random_internal_randen_engine}: absl/random/internal/hxx{randen_engine} lib{endian random_internal_iostream_state_saver random_internal_randen raw_logging_internal type_traits}
-lib{random_internal_randen_engine}: cxx.export.libs += lib{endian random_internal_iostream_state_saver random_internal_randen raw_logging_internal type_traits}
+./: lib{absl_random_internal_salted_seed_seq}: absl/random/internal/hxx{salted_seed_seq} lib{absl_inlined_vector} lib{absl_optional} lib{absl_span} lib{absl_random_internal_seed_material} lib{absl_type_traits}
+lib{absl_random_internal_salted_seed_seq}: cxx.export.libs += lib{absl_inlined_vector} lib{absl_optional} lib{absl_span} lib{absl_random_internal_seed_material} lib{absl_type_traits}
+./: lib{absl_random_internal_iostream_state_saver}: absl/random/internal/hxx{iostream_state_saver} lib{absl_int128} lib{absl_type_traits}
+lib{absl_random_internal_iostream_state_saver}: cxx.export.libs += lib{absl_int128} lib{absl_type_traits}
+./: lib{absl_random_internal_generate_real}: absl/random/internal/hxx{generate_real} lib{absl_bits} lib{absl_random_internal_fastmath} lib{absl_random_internal_traits} lib{absl_type_traits}
+lib{absl_random_internal_generate_real}: cxx.export.libs += lib{absl_bits} lib{absl_random_internal_fastmath} lib{absl_random_internal_traits} lib{absl_type_traits}
+./: lib{absl_random_internal_wide_multiply}: absl/random/internal/hxx{wide_multiply} lib{absl_bits} lib{absl_config} lib{absl_int128}
+lib{absl_random_internal_wide_multiply}: cxx.export.libs += lib{absl_bits} lib{absl_config} lib{absl_int128}
+./: lib{absl_random_internal_fastmath}: absl/random/internal/hxx{fastmath} lib{absl_bits}
+lib{absl_random_internal_fastmath}: cxx.export.libs +=  lib{absl_bits}
+./: lib{absl_random_internal_nonsecure_base}: absl/random/internal/hxx{nonsecure_base} lib{absl_core_headers} lib{absl_optional} lib{absl_random_internal_pool_urbg} lib{absl_random_internal_salted_seed_seq} lib{absl_random_internal_seed_material} lib{absl_span} lib{absl_type_traits}
+lib{absl_random_internal_nonsecure_base}: cxx.export.libs += lib{absl_core_headers} lib{absl_optional} lib{absl_random_internal_pool_urbg} lib{absl_random_internal_salted_seed_seq} lib{absl_random_internal_seed_material} lib{absl_span} lib{absl_type_traits}
+./: lib{absl_random_internal_pcg_engine}: absl/random/internal/hxx{pcg_engine} lib{absl_config} lib{absl_int128} lib{absl_random_internal_fastmath} lib{absl_random_internal_iostream_state_saver} lib{absl_type_traits}
+lib{absl_random_internal_pcg_engine}: cxx.export.libs += lib{absl_config} lib{absl_int128} lib{absl_random_internal_fastmath} lib{absl_random_internal_iostream_state_saver} lib{absl_type_traits}
+./: lib{absl_random_internal_randen_engine}: absl/random/internal/hxx{randen_engine} lib{absl_endian} lib{absl_random_internal_iostream_state_saver} lib{absl_random_internal_randen} lib{absl_raw_logging_internal} lib{absl_type_traits}
+lib{absl_random_internal_randen_engine}: cxx.export.libs += lib{absl_endian} lib{absl_random_internal_iostream_state_saver} lib{absl_random_internal_randen} lib{absl_raw_logging_internal} lib{absl_type_traits}
 
-./: lib{random_internal_platform}: libul{random_internal_platform}: \
+./: lib{absl_random_internal_platform}: libul{absl_random_internal_platform}: \
     absl/random/internal/hxx{randen_traits platform} \
     absl/random/internal/cxx{randen_round_keys} \
-    lib{config}
-lib{random_internal_platform}: cxx.export.libs += lib{config}
-lib{random_internal_platform}: def{random_internal_platform}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_platform}: libul{random_internal_platform}
+    lib{absl_config}
+lib{absl_random_internal_platform}: cxx.export.libs += lib{absl_config}
+lib{absl_random_internal_platform}: def{random_internal_platform}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_platform}: libul{absl_random_internal_platform}
 
-./: lib{random_internal_randen}: libul{random_internal_randen}: \
+./: lib{absl_random_internal_randen}: libul{absl_random_internal_randen}: \
     absl/random/internal/{cxx hxx}{randen} \
-    lib{random_internal_platform random_internal_randen_hwaes random_internal_randen_slow}
-lib{random_internal_randen}: cxx.export.libs += lib{random_internal_platform random_internal_randen_hwaes random_internal_randen_slow}
-lib{random_internal_randen}: def{random_internal_randen}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_randen}: libul{random_internal_randen}
+    lib{absl_random_internal_platform} lib{absl_random_internal_randen_hwaes} lib{absl_random_internal_randen_slow}
+lib{absl_random_internal_randen}: cxx.export.libs += lib{absl_random_internal_platform} lib{absl_random_internal_randen_hwaes} lib{absl_random_internal_randen_slow}
+lib{absl_random_internal_randen}: def{random_internal_randen}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_randen}: libul{absl_random_internal_randen}
 
-./: lib{random_internal_randen_slow}: libul{random_internal_randen_slow}: \
+./: lib{absl_random_internal_randen_slow}: libul{absl_random_internal_randen_slow}: \
     absl/random/internal/{cxx hxx}{randen_slow} \
-    lib{random_internal_platform config}
-lib{random_internal_randen_slow}: cxx.export.libs += lib{random_internal_platform config}
-lib{random_internal_randen_slow}: def{random_internal_randen_slow}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_randen_slow}: libul{random_internal_randen_slow}
+    lib{absl_random_internal_platform} lib{absl_config}
+lib{absl_random_internal_randen_slow}: cxx.export.libs += lib{absl_random_internal_platform} lib{absl_config}
+lib{absl_random_internal_randen_slow}: def{random_internal_randen_slow}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_randen_slow}: libul{absl_random_internal_randen_slow}
 
-./: lib{random_internal_randen_hwaes}: libul{random_internal_randen_hwaes}: \
+./: lib{absl_random_internal_randen_hwaes}: libul{absl_random_internal_randen_hwaes}: \
     absl/random/internal/{cxx hxx}{randen_detect} \
     absl/random/internal/hxx{randen_hwaes} \
-    lib{random_internal_platform random_internal_randen_hwaes_impl config}
-lib{random_internal_randen_hwaes}: cxx.export.libs += lib{random_internal_platform random_internal_randen_hwaes_impl config}
-lib{random_internal_randen_hwaes}: def{random_internal_randen_hwaes}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_randen_hwaes}: libul{random_internal_randen_hwaes}
+    lib{absl_random_internal_platform} lib{absl_random_internal_randen_hwaes_impl} lib{absl_config}
+lib{absl_random_internal_randen_hwaes}: cxx.export.libs += lib{absl_random_internal_platform} lib{absl_random_internal_randen_hwaes_impl} lib{absl_config}
+lib{absl_random_internal_randen_hwaes}: def{random_internal_randen_hwaes}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_randen_hwaes}: libul{absl_random_internal_randen_hwaes}
 
-./: lib{random_internal_randen_hwaes_impl}: libul{random_internal_randen_hwaes_impl}: \
+./: lib{absl_random_internal_randen_hwaes_impl}: libul{absl_random_internal_randen_hwaes_impl}: \
     absl/random/internal/{cxx hxx}{randen_hwaes} \
-    lib{random_internal_platform config}
-lib{random_internal_randen_hwaes_impl}: cxx.export.libs += lib{random_internal_platform config}
-lib{random_internal_randen_hwaes_impl}: def{random_internal_randen_hwaes_impl}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_randen_hwaes_impl}: libul{random_internal_randen_hwaes_impl}
+    lib{absl_random_internal_platform} lib{absl_config}
+lib{absl_random_internal_randen_hwaes_impl}: cxx.export.libs += lib{absl_random_internal_platform} lib{absl_config}
+lib{absl_random_internal_randen_hwaes_impl}: def{random_internal_randen_hwaes_impl}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_randen_hwaes_impl}: libul{absl_random_internal_randen_hwaes_impl}
 
-./: lib{random_internal_distribution_test_util}: libul{random_internal_distribution_test_util}: \
+./: lib{absl_random_internal_distribution_test_util}: libul{absl_random_internal_distribution_test_util}: \
     absl/random/internal/{cxx hxx}{chi_square distribution_test_util} \
-    lib{config core_headers raw_logging_internal strings str_format span}
-lib{random_internal_distribution_test_util}: cxx.export.libs += lib{config core_headers raw_logging_internal strings str_format span}
-lib{random_internal_distribution_test_util}: def{random_internal_distribution_test_util}: include = ($cxx.target.system == 'win32-msvc')
-def{random_internal_distribution_test_util}: libul{random_internal_distribution_test_util}
+    lib{absl_config} lib{absl_core_headers} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_str_format} lib{absl_span}
+lib{absl_random_internal_distribution_test_util}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_str_format} lib{absl_span}
+lib{absl_random_internal_distribution_test_util}: def{random_internal_distribution_test_util}: include = ($cxx.target.system == 'win32-msvc')
+def{random_internal_distribution_test_util}: libul{absl_random_internal_distribution_test_util}
 
-./: lib{random_internal_uniform_helper}: absl/random/internal/hxx{uniform_helper} lib{config random_internal_traits type_traits}
-lib{random_internal_uniform_helper}: cxx.export.libs += lib{config random_internal_traits type_traits}
+./: lib{absl_random_internal_uniform_helper}: absl/random/internal/hxx{uniform_helper} lib{absl_config} lib{absl_random_internal_traits} lib{absl_type_traits}
+lib{absl_random_internal_uniform_helper}: cxx.export.libs += lib{absl_config} lib{absl_random_internal_traits} lib{absl_type_traits}
 
 # status
-./: lib{status}: libul{status}: \
+./: lib{absl_status}: libul{absl_status}: \
     absl/status/{cxx hxx}{status status_payload_printer} \
     absl/status/internal/hxx{status_internal} \
-    lib{atomic_hook config core_headers function_ref raw_logging_internal inlined_vector stacktrace symbolize strings cord str_format optional}
-lib{status}: cxx.export.libs += lib{atomic_hook config core_headers function_ref raw_logging_internal inlined_vector stacktrace symbolize strings cord str_format optional}
-lib{status}: def{status}: include = ($cxx.target.system == 'win32-msvc')
-def{status}: libul{status}
+    lib{absl_atomic_hook} lib{absl_config} lib{absl_core_headers} lib{absl_function_ref} lib{absl_raw_logging_internal} lib{absl_inlined_vector} lib{absl_stacktrace} lib{absl_symbolize} lib{absl_strings} lib{absl_cord} lib{absl_str_format} lib{absl_optional}
+lib{absl_status}: cxx.export.libs += lib{absl_atomic_hook} lib{absl_config} lib{absl_core_headers} lib{absl_function_ref} lib{absl_raw_logging_internal} lib{absl_inlined_vector} lib{absl_stacktrace} lib{absl_symbolize} lib{absl_strings} lib{absl_cord} lib{absl_str_format} lib{absl_optional}
+lib{absl_status}: def{status}: include = ($cxx.target.system == 'win32-msvc')
+def{status}: libul{absl_status}
 
-./: lib{statusor}: libul{statusor}: \
+./: lib{absl_statusor}: libul{absl_statusor}: \
     absl/status/{cxx hxx}{statusor} \
     absl/status/internal/hxx{statusor_internal} \
-    lib{base status core_headers raw_logging_internal type_traits strings utility variant}
-lib{statusor}: cxx.export.libs += lib{base status core_headers raw_logging_internal type_traits strings utility variant}
-lib{statusor}: def{statusor}: include = ($cxx.target.system == 'win32-msvc')
-def{statusor}: libul{statusor}
+    lib{absl_base} lib{absl_status} lib{absl_core_headers} lib{absl_raw_logging_internal} lib{absl_type_traits} lib{absl_strings} lib{absl_utility} lib{absl_variant}
+lib{absl_statusor}: cxx.export.libs += lib{absl_base} lib{absl_status} lib{absl_core_headers} lib{absl_raw_logging_internal} lib{absl_type_traits} lib{absl_strings} lib{absl_utility} lib{absl_variant}
+lib{absl_statusor}: def{statusor}: include = ($cxx.target.system == 'win32-msvc')
+def{statusor}: libul{absl_statusor}
 
 # strings
-./: lib{strings}: libul{strings}: \
+./: lib{absl_strings}: libul{absl_strings}: \
     absl/strings/{cxx hxx}{ascii charconv escaping match numbers str_cat str_replace str_split string_view substitute} \
     absl/strings/hxx{str_join strip} \
     absl/strings/internal/hxx{string_constant stl_type_traits str_join_internal str_split_internal} \
     absl/strings/internal/{hxx cxx}{charconv_bigint charconv_parse memutil} \
-    lib{strings_internal base bits config core_headers endian int128 memory raw_logging_internal throw_delegate type_traits}
-lib{strings}: cxx.export.libs += lib{strings_internal base bits config core_headers endian int128 memory raw_logging_internal throw_delegate type_traits}
-lib{strings}: def{strings}: include = ($cxx.target.system == 'win32-msvc')
-def{strings}: libul{strings}
+    lib{absl_strings_internal} lib{absl_base} lib{absl_bits} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_int128} lib{absl_memory} lib{absl_raw_logging_internal} lib{absl_throw_delegate} lib{absl_type_traits}
+lib{absl_strings}: cxx.export.libs += lib{absl_strings_internal} lib{absl_base} lib{absl_bits} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_int128} lib{absl_memory} lib{absl_raw_logging_internal} lib{absl_throw_delegate} lib{absl_type_traits}
+lib{absl_strings}: def{strings}: include = ($cxx.target.system == 'win32-msvc')
+def{strings}: libul{absl_strings}
 
-./: lib{strings_internal}: libul{strings_internal}: \
+./: lib{absl_strings_internal}: libul{absl_strings_internal}: \
     absl/strings/internal/{cxx hxx}{utf8 ostringstream escaping} \
     absl/strings/internal/hxx{char_map resize_uninitialized} \
-    lib{config core_headers endian raw_logging_internal type_traits}
-lib{strings_internal}: cxx.export.libs += lib{config core_headers endian raw_logging_internal type_traits}
-lib{strings_internal}: def{strings_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{strings_internal}: libul{strings_internal}
+    lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_raw_logging_internal} lib{absl_type_traits}
+lib{absl_strings_internal}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_raw_logging_internal} lib{absl_type_traits}
+lib{absl_strings_internal}: def{strings_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{strings_internal}: libul{absl_strings_internal}
 
-./: lib{str_format}: absl/strings/hxx{str_format} lib{str_format_internal}
-lib{str_format}: cxx.export.libs += lib{str_format_internal}
+./: lib{absl_str_format}: absl/strings/hxx{str_format} lib{absl_str_format_internal}
+lib{absl_str_format}: cxx.export.libs += lib{absl_str_format_internal}
 
-./: lib{str_format_internal}: libul{str_format_internal}: \
+./: lib{absl_str_format_internal}: libul{absl_str_format_internal}: \
     absl/strings/internal/str_format/{cxx hxx}{arg bind extension float_conversion output parser} \
     absl/strings/internal/str_format/hxx{checker} \
-    lib{bits strings config core_headers numeric_representation type_traits int128 span}
-lib{str_format_internal}: cxx.export.libs += lib{bits strings config core_headers numeric_representation type_traits int128 span}
-lib{str_format_internal}: def{str_format_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{str_format_internal}: libul{str_format_internal}
+    lib{absl_bits} lib{absl_strings} lib{absl_config} lib{absl_core_headers} lib{absl_numeric_representation} lib{absl_type_traits} lib{absl_int128} lib{absl_span}
+lib{absl_str_format_internal}: cxx.export.libs += lib{absl_bits} lib{absl_strings} lib{absl_config} lib{absl_core_headers} lib{absl_numeric_representation} lib{absl_type_traits} lib{absl_int128} lib{absl_span}
+lib{absl_str_format_internal}: def{str_format_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{str_format_internal}: libul{absl_str_format_internal}
 
-./: lib{cord_internal}: libul{cord_internal}: \
+./: lib{absl_cord_internal}: libul{absl_cord_internal}: \
     absl/strings/internal/{cxx hxx}{cord_internal cord_rep_btree cord_rep_btree_navigator cord_rep_btree_reader cord_rep_consume cord_rep_ring} \
     absl/strings/internal/hxx{cord_rep_flat cord_rep_ring} \
-    lib{base_internal compressed_tuple config core_headers endian inlined_vector layout raw_logging_internal strings throw_delegate type_traits}
-lib{cord_internal}: cxx.export.libs += lib{base_internal compressed_tuple config core_headers endian inlined_vector layout raw_logging_internal strings throw_delegate type_traits}
-lib{cord_internal}: def{cord_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{cord_internal}: libul{cord_internal}
+    lib{absl_base_internal} lib{absl_compressed_tuple} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_inlined_vector} lib{absl_layout} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_throw_delegate} lib{absl_type_traits}
+lib{absl_cord_internal}: cxx.export.libs += lib{absl_base_internal} lib{absl_compressed_tuple} lib{absl_config} lib{absl_core_headers} lib{absl_endian} lib{absl_inlined_vector} lib{absl_layout} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_throw_delegate} lib{absl_type_traits}
+lib{absl_cord_internal}: def{cord_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{cord_internal}: libul{absl_cord_internal}
 
-./: lib{cordz_update_tracker}: absl/strings/internal/hxx{cordz_update_tracker} lib{config}
-lib{cordz_update_tracker}: cxx.export.libs += lib{config}
+./: lib{absl_cordz_update_tracker}: absl/strings/internal/hxx{cordz_update_tracker} lib{absl_config}
+lib{absl_cordz_update_tracker}: cxx.export.libs += lib{absl_config}
 
-./: lib{cordz_functions}: libul{cordz_functions}: \
+./: lib{absl_cordz_functions}: libul{absl_cordz_functions}: \
     absl/strings/internal/{cxx hxx}{cordz_functions} \
-    lib{config core_headers exponential_biased raw_logging_internal}
-lib{cordz_functions}: cxx.export.libs += lib{config core_headers exponential_biased raw_logging_internal}
-lib{cordz_functions}: def{cordz_functions}: include = ($cxx.target.system == 'win32-msvc')
-def{cordz_functions}: libul{cordz_functions}
+    lib{absl_config} lib{absl_core_headers} lib{absl_exponential_biased} lib{absl_raw_logging_internal}
+lib{absl_cordz_functions}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_exponential_biased} lib{absl_raw_logging_internal}
+lib{absl_cordz_functions}: def{cordz_functions}: include = ($cxx.target.system == 'win32-msvc')
+def{cordz_functions}: libul{absl_cordz_functions}
 
-./: lib{cordz_statistics}: absl/strings/internal/hxx{cordz_statistics} lib{config core_headers cordz_update_tracker synchronization}
-lib{cordz_statistics}: cxx.export.libs += lib{config core_headers cordz_update_tracker synchronization}
+./: lib{absl_cordz_statistics}: absl/strings/internal/hxx{cordz_statistics} lib{absl_config} lib{absl_core_headers} lib{absl_cordz_update_tracker} lib{absl_synchronization}
+lib{absl_cordz_statistics}: cxx.export.libs += lib{absl_config} lib{absl_core_headers} lib{absl_cordz_update_tracker} lib{absl_synchronization}
 
-./: lib{cordz_handle}: libul{cordz_handle}: \
+./: lib{absl_cordz_handle}: libul{absl_cordz_handle}: \
     absl/strings/internal/{cxx hxx}{cordz_handle} \
-    lib{base config raw_logging_internal synchronization}
-lib{cordz_handle}: cxx.export.libs += lib{base config raw_logging_internal synchronization}
-lib{cordz_handle}: def{cordz_handle}: include = ($cxx.target.system == 'win32-msvc')
-def{cordz_handle}: libul{cordz_handle}
+    lib{absl_base} lib{absl_config} lib{absl_raw_logging_internal} lib{absl_synchronization}
+lib{absl_cordz_handle}: cxx.export.libs += lib{absl_base} lib{absl_config} lib{absl_raw_logging_internal} lib{absl_synchronization}
+lib{absl_cordz_handle}: def{cordz_handle}: include = ($cxx.target.system == 'win32-msvc')
+def{cordz_handle}: libul{absl_cordz_handle}
 
-./: lib{cordz_info}: libul{cordz_info}: \
+./: lib{absl_cordz_info}: libul{absl_cordz_info}: \
     absl/strings/internal/{cxx hxx}{cordz_info} \
-    lib{base config cord_internal cordz_functions cordz_handle cordz_statistics cordz_update_tracker core_headers inlined_vector span raw_logging_internal stacktrace synchronization}
-lib{cordz_info}: cxx.export.libs += lib{base config cord_internal cordz_functions cordz_handle cordz_statistics cordz_update_tracker core_headers inlined_vector span raw_logging_internal stacktrace synchronization}
-lib{cordz_info}: def{cordz_info}: include = ($cxx.target.system == 'win32-msvc')
-def{cordz_info}: libul{cordz_info}
+    lib{absl_base} lib{absl_config} lib{absl_cord_internal} lib{absl_cordz_functions} lib{absl_cordz_handle} lib{absl_cordz_statistics} lib{absl_cordz_update_tracker} lib{absl_core_headers} lib{absl_inlined_vector} lib{absl_span} lib{absl_raw_logging_internal} lib{absl_stacktrace} lib{absl_synchronization}
+lib{absl_cordz_info}: cxx.export.libs += lib{absl_base} lib{absl_config} lib{absl_cord_internal} lib{absl_cordz_functions} lib{absl_cordz_handle} lib{absl_cordz_statistics} lib{absl_cordz_update_tracker} lib{absl_core_headers} lib{absl_inlined_vector} lib{absl_span} lib{absl_raw_logging_internal} lib{absl_stacktrace} lib{absl_synchronization}
+lib{absl_cordz_info}: def{cordz_info}: include = ($cxx.target.system == 'win32-msvc')
+def{cordz_info}: libul{absl_cordz_info}
 
-./: lib{cordz_sample_token}: libul{cordz_sample_token}: \
+./: lib{absl_cordz_sample_token}: libul{absl_cordz_sample_token}: \
     absl/strings/internal/{cxx hxx}{cordz_sample_token} \
-    lib{config cordz_handle cordz_info}
-lib{cordz_sample_token}: cxx.export.libs += lib{config cordz_handle cordz_info}
-lib{cordz_sample_token}: def{cordz_sample_token}: include = ($cxx.target.system == 'win32-msvc')
-def{cordz_sample_token}: libul{cordz_sample_token}
+    lib{absl_config} lib{absl_cordz_handle} lib{absl_cordz_info}
+lib{absl_cordz_sample_token}: cxx.export.libs += lib{absl_config} lib{absl_cordz_handle} lib{absl_cordz_info}
+lib{absl_cordz_sample_token}: def{cordz_sample_token}: include = ($cxx.target.system == 'win32-msvc')
+def{cordz_sample_token}: libul{absl_cordz_sample_token}
 
-./: lib{cordz_update_scope}: absl/strings/internal/hxx{cordz_update_scope} lib{config cord_internal cordz_info cordz_update_tracker core_headers}
-lib{cordz_update_scope}: cxx.export.libs += lib{config cord_internal cordz_info cordz_update_tracker core_headers}
+./: lib{absl_cordz_update_scope}: absl/strings/internal/hxx{cordz_update_scope} lib{absl_config} lib{absl_cord_internal} lib{absl_cordz_info} lib{absl_cordz_update_tracker} lib{absl_core_headers}
+lib{absl_cordz_update_scope}: cxx.export.libs += lib{absl_config} lib{absl_cord_internal} lib{absl_cordz_info} lib{absl_cordz_update_tracker} lib{absl_core_headers}
 
-./: lib{cord}: libul{cord}: \
+./: lib{absl_cord}: libul{absl_cord}: \
     absl/strings/{hxx cxx}{cord} \
-    lib{base config cord_internal cordz_functions cordz_info cordz_update_scope cordz_update_tracker core_headers endian fixed_array function_ref inlined_vector optional raw_logging_internal strings type_traits}
-lib{cord}: cxx.export.libs += lib{base config cord_internal cordz_functions cordz_info cordz_update_scope cordz_update_tracker core_headers endian fixed_array function_ref inlined_vector optional raw_logging_internal strings type_traits}
-lib{cord}: def{cord}: include = ($cxx.target.system == 'win32-msvc')
-def{cord}: libul{cord}
+    lib{absl_base} lib{absl_config} lib{absl_cord_internal} lib{absl_cordz_functions} lib{absl_cordz_info} lib{absl_cordz_update_scope} lib{absl_cordz_update_tracker} lib{absl_core_headers} lib{absl_endian} lib{absl_fixed_array} lib{absl_function_ref} lib{absl_inlined_vector} lib{absl_optional} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_type_traits}
+lib{absl_cord}: cxx.export.libs += lib{absl_base} lib{absl_config} lib{absl_cord_internal} lib{absl_cordz_functions} lib{absl_cordz_info} lib{absl_cordz_update_scope} lib{absl_cordz_update_tracker} lib{absl_core_headers} lib{absl_endian} lib{absl_fixed_array} lib{absl_function_ref} lib{absl_inlined_vector} lib{absl_optional} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_type_traits}
+lib{absl_cord}: def{cord}: include = ($cxx.target.system == 'win32-msvc')
+def{cord}: libul{absl_cord}
 
 # synchronization
-./: lib{graphcycles_internal}: libul{graphcycles_internal}: \
+./: lib{absl_graphcycles_internal}: libul{absl_graphcycles_internal}: \
     absl/synchronization/internal/{cxx hxx}{graphcycles} \
-    lib{base base_internal config core_headers malloc_internal raw_logging_internal}
-lib{graphcycles_internal}: cxx.export.libs += lib{base base_internal config core_headers malloc_internal raw_logging_internal}
-lib{graphcycles_internal}: def{graphcycles_internal}: include = ($cxx.target.system == 'win32-msvc')
-def{graphcycles_internal}: libul{graphcycles_internal}
+    lib{absl_base} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_malloc_internal} lib{absl_raw_logging_internal}
+lib{absl_graphcycles_internal}: cxx.export.libs += lib{absl_base} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_malloc_internal} lib{absl_raw_logging_internal}
+lib{absl_graphcycles_internal}: def{graphcycles_internal}: include = ($cxx.target.system == 'win32-msvc')
+def{graphcycles_internal}: libul{absl_graphcycles_internal}
 
-./: lib{kernel_timeout_internal}: absl/synchronization/internal/hxx{kernel_timeout} lib{core_headers raw_logging_internal time}
-lib{kernel_timeout_internal}: cxx.export.libs += lib{core_headers raw_logging_internal time}
+./: lib{absl_kernel_timeout_internal}: absl/synchronization/internal/hxx{kernel_timeout} lib{absl_core_headers} lib{absl_raw_logging_internal} lib{absl_time}
+lib{absl_kernel_timeout_internal}: cxx.export.libs += lib{absl_core_headers} lib{absl_raw_logging_internal} lib{absl_time}
 
-./: lib{synchronization}: libul{synchronization}: \
+./: lib{absl_synchronization}: libul{absl_synchronization}: \
     absl/synchronization/{cxx hxx}{barrier blocking_counter notification mutex} \
     absl/synchronization/internal/{cxx hxx}{create_thread_identity per_thread_sem waiter} \
     absl/synchronization/internal/hxx{futex} \
-    lib{graphcycles_internal kernel_timeout_internal atomic_hook base base_internal config core_headers dynamic_annotations malloc_internal raw_logging_internal stacktrace symbolize time}
-lib{synchronization}: cxx.export.libs += lib{graphcycles_internal kernel_timeout_internal atomic_hook base base_internal config core_headers dynamic_annotations malloc_internal raw_logging_internal stacktrace symbolize time}
-lib{synchronization}: def{synchronization}: include = ($cxx.target.system == 'win32-msvc')
-def{synchronization}: libul{synchronization}
+    lib{absl_graphcycles_internal} lib{absl_kernel_timeout_internal} lib{absl_atomic_hook} lib{absl_base} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_malloc_internal} lib{absl_raw_logging_internal} lib{absl_stacktrace} lib{absl_symbolize} lib{absl_time}
+lib{absl_synchronization}: cxx.export.libs += lib{absl_graphcycles_internal} lib{absl_kernel_timeout_internal} lib{absl_atomic_hook} lib{absl_base} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_dynamic_annotations} lib{absl_malloc_internal} lib{absl_raw_logging_internal} lib{absl_stacktrace} lib{absl_symbolize} lib{absl_time}
+lib{absl_synchronization}: def{synchronization}: include = ($cxx.target.system == 'win32-msvc')
+def{synchronization}: libul{absl_synchronization}
 
 if ($cxx.target.class != 'windows')
-    lib{synchronization}: cxx.libs += "-lpthread"
+    lib{absl_synchronization}: cxx.libs += "-lpthread"
 
 # time
-./: lib{time}: libul{time}: \
+./: lib{absl_time}: libul{absl_time}: \
     absl/time/{cxx hxx}{civil_time clock time} \
     absl/time/cxx{duration format} \
     absl/time/internal/ixx{get_current_time_chrono get_current_time_posix} \
-    lib{base civil_time core_headers int128 raw_logging_internal strings time_zone}
-lib{time}: cxx.export.libs += lib{base civil_time core_headers int128 raw_logging_internal strings time_zone}
-lib{time}: def{time}: include = ($cxx.target.system == 'win32-msvc')
-def{time}: libul{time}
+    lib{absl_base} lib{absl_civil_time} lib{absl_core_headers} lib{absl_int128} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_time_zone}
+lib{absl_time}: cxx.export.libs += lib{absl_base} lib{absl_civil_time} lib{absl_core_headers} lib{absl_int128} lib{absl_raw_logging_internal} lib{absl_strings} lib{absl_time_zone}
+lib{absl_time}: def{time}: include = ($cxx.target.system == 'win32-msvc')
+def{time}: libul{absl_time}
 
-./: lib{civil_time}: libul{civil_time}: \
+./: lib{absl_civil_time}: libul{absl_civil_time}: \
     absl/time/internal/cctz/src/cxx{civil_time_detail} \
     absl/time/internal/cctz/include/cctz/hxx{civil_time civil_time_detail}
-lib{civil_time}: def{civil_time}: include = ($cxx.target.system == 'win32-msvc')
-def{civil_time}: libul{civil_time}
+lib{absl_civil_time}: def{civil_time}: include = ($cxx.target.system == 'win32-msvc')
+def{civil_time}: libul{absl_civil_time}
 
-./: lib{time_zone}: libul{time_zone}: \
+./: lib{absl_time_zone}: libul{absl_time_zone}: \
     absl/time/internal/cctz/include/cctz/hxx{time_zone zone_info_source} \
     absl/time/internal/cctz/src/cxx{time_zone_format time_zone_lookup zone_info_source} \
     absl/time/internal/cctz/src/hxx{tzfile} \
     absl/time/internal/cctz/src/{cxx hxx}{time_zone_fixed time_zone_if time_zone_impl time_zone_info time_zone_libc time_zone_posix}
-lib{time_zone}: def{time_zone}: include = ($cxx.target.system == 'win32-msvc')
-def{time_zone}: libul{time_zone}
+lib{absl_time_zone}: def{time_zone}: include = ($cxx.target.system == 'win32-msvc')
+def{time_zone}: libul{absl_time_zone}
 
 if ($cxx.target.class == 'macos')
-    lib{time_zone}: cxx.libs += "CoreFoundation.framework"
+    lib{absl_time_zone}: cxx.libs += "CoreFoundation.framework"
 
 # types
-./: lib{any}: absl/types/hxx{any} lib{bad_any_cast config core_headers fast_type_id type_traits utility}
-lib{any}: cxx.export.libs += lib{bad_any_cast config core_headers fast_type_id type_traits utility}
-./: lib{bad_any_cast}: absl/types/hxx{bad_any_cast} lib{bad_any_cast_impl config}
-lib{bad_any_cast}: cxx.export.libs += lib{bad_any_cast_impl config}
+./: lib{absl_any}: absl/types/hxx{any} lib{absl_bad_any_cast} lib{absl_config} lib{absl_core_headers} lib{absl_fast_type_id} lib{absl_type_traits} lib{absl_utility}
+lib{absl_any}: cxx.export.libs += lib{absl_bad_any_cast} lib{absl_config} lib{absl_core_headers} lib{absl_fast_type_id} lib{absl_type_traits} lib{absl_utility}
+./: lib{absl_bad_any_cast}: absl/types/hxx{bad_any_cast} lib{absl_bad_any_cast_impl} lib{absl_config}
+lib{absl_bad_any_cast}: cxx.export.libs += lib{absl_bad_any_cast_impl} lib{absl_config}
 
-./: lib{bad_any_cast_impl}: libul{bad_any_cast_impl}: \
+./: lib{absl_bad_any_cast_impl}: libul{absl_bad_any_cast_impl}: \
     absl/types/{cxx hxx}{bad_any_cast} \
-    lib{config raw_logging_internal}
-lib{bad_any_cast_impl}: cxx.export.libs += lib{config raw_logging_internal}
-lib{bad_any_cast_impl}: def{bad_any_cast_impl}: include = ($cxx.target.system == 'win32-msvc')
-def{bad_any_cast_impl}: libul{bad_any_cast_impl}
+    lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_bad_any_cast_impl}: cxx.export.libs += lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_bad_any_cast_impl}: def{bad_any_cast_impl}: include = ($cxx.target.system == 'win32-msvc')
+def{bad_any_cast_impl}: libul{absl_bad_any_cast_impl}
 
-./: lib{span}: absl/types/hxx{span internal/span} lib{algorithm core_headers throw_delegate type_traits}
-lib{span}: cxx.export.libs += lib{algorithm core_headers throw_delegate type_traits}
-./: lib{optional}: absl/types/hxx{optional internal/optional} lib{bad_optional_access base_internal config core_headers memory type_traits utility}
-lib{optional}: cxx.export.libs += lib{bad_optional_access base_internal config core_headers memory type_traits utility}
+./: lib{absl_span}: absl/types/hxx{span internal/span} lib{absl_algorithm} lib{absl_core_headers} lib{absl_throw_delegate} lib{absl_type_traits}
+lib{absl_span}: cxx.export.libs += lib{absl_algorithm} lib{absl_core_headers} lib{absl_throw_delegate} lib{absl_type_traits}
+./: lib{absl_optional}: absl/types/hxx{optional internal/optional} lib{absl_bad_optional_access} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_memory} lib{absl_type_traits} lib{absl_utility}
+lib{absl_optional}: cxx.export.libs += lib{absl_bad_optional_access} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_memory} lib{absl_type_traits} lib{absl_utility}
 
-./: lib{bad_optional_access}: libul{bad_optional_access}: \
+./: lib{absl_bad_optional_access}: libul{absl_bad_optional_access}: \
     absl/types/{cxx hxx}{bad_optional_access} \
-    lib{config raw_logging_internal}
-lib{bad_optional_access}: cxx.export.libs += lib{config raw_logging_internal}
-lib{bad_optional_access}: def{bad_optional_access}: include = ($cxx.target.system == 'win32-msvc')
-def{bad_optional_access}: libul{bad_optional_access}
+    lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_bad_optional_access}: cxx.export.libs += lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_bad_optional_access}: def{bad_optional_access}: include = ($cxx.target.system == 'win32-msvc')
+def{bad_optional_access}: libul{absl_bad_optional_access}
 
-./: lib{bad_variant_access}: libul{bad_variant_access}: \
+./: lib{absl_bad_variant_access}: libul{absl_bad_variant_access}: \
     absl/types/{cxx hxx}{bad_variant_access} \
-    lib{config raw_logging_internal}
-lib{bad_variant_access}: cxx.export.libs += lib{config raw_logging_internal}
-lib{bad_variant_access}: def{bad_variant_access}: include = ($cxx.target.system == 'win32-msvc')
-def{bad_variant_access}: libul{bad_variant_access}
+    lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_bad_variant_access}: cxx.export.libs += lib{absl_config} lib{absl_raw_logging_internal}
+lib{absl_bad_variant_access}: def{bad_variant_access}: include = ($cxx.target.system == 'win32-msvc')
+def{bad_variant_access}: libul{absl_bad_variant_access}
 
-./: lib{variant}: absl/types/hxx{variant internal/variant} lib{bad_variant_access base_internal config core_headers type_traits utility}
-lib{variant}: cxx.export.libs += lib{bad_variant_access base_internal config core_headers type_traits utility}
-./: lib{compare}: absl/types/hxx{compare} lib{core_headers type_traits}
-lib{compare}: cxx.export.libs += lib{core_headers type_traits}
+./: lib{absl_variant}: absl/types/hxx{variant internal/variant} lib{absl_bad_variant_access} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_type_traits} lib{absl_utility}
+lib{absl_variant}: cxx.export.libs += lib{absl_bad_variant_access} lib{absl_base_internal} lib{absl_config} lib{absl_core_headers} lib{absl_type_traits} lib{absl_utility}
+./: lib{absl_compare}: absl/types/hxx{compare} lib{absl_core_headers} lib{absl_type_traits}
+lib{absl_compare}: cxx.export.libs += lib{absl_core_headers} lib{absl_type_traits}
 
 # utility
-./: lib{utility}: absl/utility/hxx{utility} lib{base_internal config type_traits}
-lib{utility}: cxx.export.libs += lib{base_internal config type_traits}
+./: lib{absl_utility}: absl/utility/hxx{utility} lib{absl_base_internal} lib{absl_config} lib{absl_type_traits}
+lib{absl_utility}: cxx.export.libs += lib{absl_base_internal} lib{absl_config} lib{absl_type_traits}
 
 lib{*}:
 {
