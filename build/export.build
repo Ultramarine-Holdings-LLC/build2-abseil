@@ -1,0 +1,6 @@
+$out_root/
+{
+  include abseil/
+}
+
+export $out_root/abseil/$import.target

@@ -1,0 +1,10 @@
+: 1
+name: abseil
+version: 2021.1102.0-a.0.z
+summary: Abseil Common Libraries (C++)
+license: Apache-2.0
+description-file: upstream/README.md
+url: https://abseil.io
+src-url: https://github.com/abseil/abseil-cpp
+depends: * build2 >= 0.14.0
+depends: * bpkg >= 0.14.0
