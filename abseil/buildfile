@@ -730,3 +730,9 @@ lib{*}:
 {
     cxx.export.poptions += "-I$src_base"
 }
+
+{hxx ixx}{*}:
+{
+    install = include/
+    install.subdirs = true
+}
