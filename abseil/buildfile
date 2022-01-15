@@ -1,14 +1,13 @@
 cxx.poptions += "-I$src_base"
 
-if ($cxx.target.system == 'msvc')
+if ($cxx.target.class == 'windows')
 {
-    cxx.poptions += "/DNOMINMAX" "/DWIN32_LEAN_AND_MEAN" "/D_CRT_SECURE_NO_WARNINGS" "/D_SCL_SECURE_NO_WARNINGS" "/D_ENABLE_EXTENDED_ALIGNED_STORAGE"
-    cxx.coptions += "/bigobj"
+    cxx.poptions += "-DNOMINMAX" "-DWIN32_LEAN_AND_MEAN" "-D_CRT_SECURE_NO_WARNINGS" "-D_SCL_SECURE_NO_WARNINGS" "-D_ENABLE_EXTENDED_ALIGNED_STORAGE"
 }
 
-if ($cxx.target.system == 'mingw32')
+if ($cxx.id == 'msvc')
 {
-    cxx.poptions += "-DNOMINMAX"
+    cxx.coptions += "/bigobj"
 }
 
 if (($cxx.target.cpu == 'x86_64') && ($cxx.target.system != 'msvc'))
@@ -729,6 +728,12 @@ lib{absl_utility}: cxx.export.libs += lib{absl_base_internal} lib{absl_config} l
 lib{*}:
 {
     cxx.export.poptions += "-I$src_base"
+}
+
+if($cxx.target.class == 'windows')
+{
+    libs{*}: cxx.export.poptions += -DABSL_CONSUME_DLL
+    objs{*}: cxx.poptions += -DABSL_BUILD_DLL
 }
 
 {hxx ixx}{*}:
