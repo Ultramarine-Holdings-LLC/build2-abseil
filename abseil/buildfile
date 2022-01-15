@@ -730,6 +730,12 @@ lib{*}:
     cxx.export.poptions += "-I$src_base"
 }
 
+if($cxx.target.class == 'windows')
+{
+    libs{*}: cxx.export.poptions += -DABSL_CONSUME_DLL
+    objs{*}: cxx.poptions += -DABSL_BUILD_DLL
+}
+
 {hxx ixx}{*}:
 {
     install = include/
